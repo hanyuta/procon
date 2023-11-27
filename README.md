@@ -8,7 +8,10 @@ users
 | last_name          | string  | null: false                  | 
 | admin_true         | boolean | null: false , default: false | 
 
-association
+associations
+has_one:clients_info_name
+has_many:schedules
+has_many:comments
 
 
 schedules
@@ -18,12 +21,14 @@ schedules
 | user          | references | null: false , foreign_key: true | 
 | clients_info  | references | null: false , foreign_key: true | 
 
-association
+associations
+has_one:client_info
+belongs_to:user
+has_many:comments
+has_many:process_schedules
 
 
-
-
-clients_info_names
+clients_info_name
 | column             | type       | option                          | 
 | ------------------ | ---------- | ------------------------------- | 
 | client_info1_name  | string     |                                 | 
@@ -38,8 +43,9 @@ clients_info_names
 | client_info10_name | string     |                                 | 
 | user               | references | null: false , foreign_key: true |
 
-association
-
+associations
+has_one:user
+has_many:clients_info
 
 
 clients_info
@@ -58,7 +64,9 @@ clients_info
 | client_info10     | string     |                                 | 
 | clients_info_name | references | null: false , foreign_key: true | 
 
-association
+associations
+belongs_to:client_info_name
+has_one:schedule
 
 
 comments
@@ -68,7 +76,9 @@ comments
 | user     | references | null: false , foreign_key: true | 
 | schedule | references | null: false , foreign_key: true | 
 
-association
+associations
+belongs_to: user
+belongs_to: schedule
 
 
 process_machines
@@ -78,12 +88,15 @@ process_machines
 | pm_abbreviation | string | null: false                      | 
 | pm_color        | string | null: false , default: "#FFFFFF" |
 
-association
-
-
+associations
+has_many:process_schedules
 
 process_schedules
 | column          | type       | option                          | 
 | --------------- | ---------- | ------------------------------- | 
 | schedule        | references | null: false , foreign_key: true | 
 | process_machine | references | null: false , foreign_key: true | 
+
+associations
+belongs_to:schedule
+belongs_to:process_machine
