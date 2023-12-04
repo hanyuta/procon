@@ -1,3 +1,5 @@
+
+
 <div class="register-signin-edit-wrapper">
   <div class="sign-up-container">
     <h2>新規登録</h2>
@@ -21,21 +23,52 @@
         <%= f.label :パスワード（再入力） %><br />
         <%= f.password_field :password_confirmation, autocomplete: "new-password" ,class:"user-form" %>
       </div>
+      <div class="name-container">
+        <div class="field">
+          <%= f.label :苗字 %><br />
+          <%= f.text_field :first_name ,class:"name-form"  %>
+        </div>
 
-      <div class="field">
-        <%= f.label :苗字 %><br />
-        <%= f.text_field :first_name, autofocus: true ,class:"first-name-form"  %>
+        <div class="field">
+          <%= f.label :名前 %><br />
+          <%= f.text_field :first_name ,class:"name-form"  %>
+        </div>
       </div>
 
-      <div class="field">
-        <%= f.label :名前 %><br />
-        <%= f.text_field :first_name, autofocus: true ,class:"last-name-form"  %>
-      </div>
 
       <div class="field">
         <%= f.label :ユーザー確認 %><br />
-        <%= f.check_box :admin_true ,class:"admin_checkbox" %>
+        <%= f.check_box :admin_true,id: "admin-checkbox", class: "admin-checkbox"  %>
       </div>
+
+      <div id="admin-user-check"></div>
+
+<script>
+  function AdminPasswordForm() {
+    return (
+      '<div>' +
+        '<p>管理者用パスワード</p>' +
+        '<input type="password" />' +
+      '</div>'
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var adminCheckbox = document.getElementById('admin-checkbox');
+    var reactRoot = document.getElementById('admin-user-check');
+
+    function renderReactComponent() {
+      var isChecked = adminCheckbox.checked;
+
+      reactRoot.innerHTML = isChecked ? AdminPasswordForm() : '';
+    }
+
+  adminCheckbox.addEventListener('change', renderReactComponent);
+
+    // 初回描画
+    renderReactComponent();
+  });
+</script>
 
       <div class="actions">
         <%= f.submit "登録" , class:"register-login-btn" %>
