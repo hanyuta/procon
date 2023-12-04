@@ -11,7 +11,6 @@
   height: 30px;
   width: 300px;
   border-radius: 10px;
-  padding: 2px;
 }
 
 .error_messages{
@@ -43,4 +42,17 @@
 
 .login-register-link{
   padding-top: 20px;
+}
+
+/* register */
+
+.name-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.name-form{
+  width: 140px;
+  height: 30px;
+  border-radius: 10px;
 }
