@@ -29,7 +29,7 @@
 
         <div class="field">
           <%= f.label :名前 %><br />
-          <%= f.text_field :first_name ,class:"name-form"  %>
+          <%= f.text_field :last_name ,class:"name-form"  %>
         </div>
       </div>
 
@@ -40,7 +40,7 @@
 
       <div id="admin-user-check"  class="field " style="display:none;">
         <%= f.label :管理ユーザー用パスワード %><br />
-        <input type="password" id="admin-password-input" class="user-form">
+        <%= f.password_field :admin_password, id:"admin_password", class:"user-form" %>
       </div>
 
       <div class="actions">
