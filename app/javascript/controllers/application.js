@@ -1,4 +1,5 @@
 import { Application } from "@hotwired/stimulus"
+import "admin_check"
 
 const application = Application.start()
 

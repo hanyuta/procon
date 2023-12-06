@@ -1,0 +1,61 @@
+
+/* common */
+
+.register-signin-edit-wrapper{
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.user-form{
+  height: 30px;
+  width: 300px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.error_messages{
+  width: 300px;
+}
+
+/* user */
+
+.field{
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.actions{
+  margin-top: 20px;
+}
+
+.register-login-btn{
+  padding: 5px 15px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: skyblue;
+}
+
+.register-login-btn:hover{
+  opacity: 0.7;
+}
+
+.login-register-link{
+  padding-top: 20px;
+}
+
+/* register */
+
+.name-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.name-form{
+  width: 140px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
