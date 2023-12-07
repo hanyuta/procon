@@ -1,12 +1,55 @@
 <%= render "shared/main_header" %>
 
-
-    <div class="main-container">
-        etst
+<div class="main-container">
+    <div class="body-top-wrapper">
+        <% if user_signed_in? %>
+        <div class="login_user_name">ログイン中  <%= current_user.first_name %></div>
+        <% else %>
+        <div class="login_user_name">ログインしていません</div>
+        <% end %>
+        <% if user_signed_in? && current_user.admin_true == true %>
+        <li><%= link_to "スケジュールを追加" , "" ,class: "add-schedule" %></li>
+        <% end %>
     </div>
+    <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Day</th>
+          </tr>
+        </thead>
+        <tbody id="calendar-body">
+          <!-- Calendar dates will be inserted here using JavaScript -->
+        </tbody>
+      </table>
+      
+      <script>
+        // Function to generate dates for the next 1 year
+        function generateDates() {
+          const startDate = new Date();
+          const endDate = new Date();
+          endDate.setFullYear(startDate.getFullYear() + 1);
+      
+          const tableBody = document.getElementById('calendar-body');
+      
+          while (startDate <= endDate) {
+            const row = tableBody.insertRow();
+            const cellDate = row.insertCell(0);
+            const cellDay = row.insertCell(1);
+      
+            cellDate.textContent = startDate.toDateString();
+            cellDay.textContent = startDate.toLocaleDateString('en-US', { weekday: 'long' });
+      
+            startDate.setDate(startDate.getDate() + 1);
+          }
+        }
+      
+        // Call the function to generate dates
+        generateDates();
+      </script>
+
+</div>
 
 
 
-    <div class="footer-wrapper">
-        <p>hints</p>
-    </div>
+<%= render "shared/main_footer" %>
