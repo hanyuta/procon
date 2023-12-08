@@ -1,12 +1,12 @@
 
 /* common */
-
-.register-signin-edit-wrapper{
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-  }
   
+.register-signin-edit-wrapper{
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
   .user-form{
     height: 30px;
     width: 300px;
@@ -19,6 +19,12 @@
   }
   
   /* user */
+
+  .user-session-title,
+  .new-registration-title{
+    font-weight: bold;
+    font-size: 25px;
+  }
   
   .field{
     font-weight: bold;
@@ -29,6 +35,7 @@
     margin-top: 20px;
   }
   
+
   .register-login-btn{
     padding: 5px 15px;
     font-weight: bold;
