@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_04_021102) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_07_183116) do
+  create_table "clients_info_names", charset: "utf8", force: :cascade do |t|
+    t.string "clients_info1_name"
+    t.string "clients_info2_name"
+    t.string "clients_info3_name"
+    t.string "clients_info4_name"
+    t.string "clients_info5_name"
+    t.string "clients_info6_name"
+    t.string "clients_info7_name"
+    t.string "clients_info8_name"
+    t.string "clients_info9_name"
+    t.string "clients_info10_name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_clients_info_names_on_user_id"
+  end
+
   create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -26,4 +43,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_04_021102) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "clients_info_names", "users"
 end
