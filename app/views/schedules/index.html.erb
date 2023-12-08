@@ -3,12 +3,19 @@
 <div class="main-container">
     <div class="body-top-wrapper">
         <% if user_signed_in? %>
-        <div class="login_user_name">ログイン中  <%= current_user.first_name %></div>
+          <div class="login_user_name">ログイン中　<%= current_user.first_name %></div>
         <% else %>
-        <div class="login_user_name">ログインしていません</div>
+          <div class="login_user_name">ログインしていません</div>
         <% end %>
         <% if user_signed_in? && current_user.admin_true == true %>
-        <li><%= link_to "スケジュールを追加" , "" ,class: "add-schedule" %></li>
+          <div class="add-lists">
+            <div class="add-schedule-list">
+              <%= link_to "スケジュールを追加" , "" ,class: "add-schedule" %>
+            </div>
+            <div class="add-client-info-list">
+              <%= link_to "顧客情報追加" , "" ,class: "add-client-info" %>
+            </div>
+          </div>
         <% end %>
     </div>
     <table>
