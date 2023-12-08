@@ -22,31 +22,7 @@
           <!-- Calendar dates will be inserted here using JavaScript -->
         </tbody>
       </table>
-      
-      <script>
-        // Function to generate dates for the next 1 year
-        function generateDates() {
-          const startDate = new Date();
-          const endDate = new Date();
-          endDate.setFullYear(startDate.getFullYear() + 1);
-      
-          const tableBody = document.getElementById('calendar-body');
-      
-          while (startDate <= endDate) {
-            const row = tableBody.insertRow();
-            const cellDate = row.insertCell(0);
-            const cellDay = row.insertCell(1);
-      
-            cellDate.textContent = startDate.toDateString();
-            cellDay.textContent = startDate.toLocaleDateString('en-US', { weekday: 'long' });
-      
-            startDate.setDate(startDate.getDate() + 1);
-          }
-        }
-      
-        // Call the function to generate dates
-        generateDates();
-      </script>
+
 
 </div>
 
