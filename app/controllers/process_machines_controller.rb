@@ -1,0 +1,2 @@
+class ProcessMachinesController < ApplicationController
+end
