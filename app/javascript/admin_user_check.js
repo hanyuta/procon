@@ -13,3 +13,4 @@ function AdminPasswordFrom(){
 };
 
 window.addEventListener("DOMContentLoaded",AdminPasswordFrom )
+window.addEventListener("turbo:load", AdminPasswordFrom)
