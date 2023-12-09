@@ -5,5 +5,5 @@ Rails.application.routes.draw do
 
   resources :schedules
 
-  resources :client_info_names, only: [:index]
+  resources :client_info_names, only: [:index ,:create ,:new]
 end
