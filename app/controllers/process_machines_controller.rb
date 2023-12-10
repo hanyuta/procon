@@ -1,11 +1,30 @@
 class ProcessMachinesController < ApplicationController
-  before_action :set_color, expect: [:index ,:create]
+  before_action :set_color, expect: [:index]
 
   def index
-    
+
+  end
+
+  def create
+    @process_machine = ProcessMachine.new(process_machine_params)
+
+    if @process_machine.save
+      redirect_to root_path
+      return
+    else
+      puts @process_machine.errors.full_messages
+      render :new, status: :unprocessable_entity
+      return
+    end
   end
 
   private
+
+  def process_machine_params
+    puts "Params: #{params.inspect}" # デバッグ用に出力
+
+    params.require(:process_machine).permit(:pm_name,:pm_abbreviation,:pm_color)
+  end
 
   def set_color
       @colors = [
