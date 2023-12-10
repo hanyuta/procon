@@ -14,7 +14,7 @@ has_many:schedules
 has_many:comments
 
 
-schedules
+schedule
 | column        | type       | option                          | 
 | ------------- | ---------- | ------------------------------- | 
 | schedule_date | date       |                                 | 
@@ -91,7 +91,7 @@ process_machines
 associations
 has_many:process_schedules
 
-process_schedules
+process_schedule
 | column          | type       | option                          | 
 | --------------- | ---------- | ------------------------------- | 
 | schedule        | references | null: false , foreign_key: true | 
