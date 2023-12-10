@@ -1,0 +1,2 @@
+module ProcessMachinesHelper
+end
