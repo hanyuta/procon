@@ -12,6 +12,7 @@
     <div class="process-machines-container">
         <h2 class="process-machines-title">工程・設備登録</h2>
 
+        <%= render 'shared/error_messages', model:@process_machine %>
         <div class="info-form-container">
             <%= form_with model:@process_machine ,url:process_machines_path do |f| %>
                 <div class="info-form-name">
@@ -23,7 +24,7 @@
                   <p>色選択</p>
                     <div id="color-bar" class="color-bar">※文字色は黒のみです。文字の見える色を選択してください。</div>
                         <div class="color-view-box">
-                        <%= f.hidden_field :selected_color, id: "selected-color-field" %>
+                        <%= f.hidden_field "pm_color", id: "pm_color" %>
                           <div class="color-box-container">
                             <% @colors.each do |color|  %>
                               <% sanitized_color = color.gsub("#", "") %>
@@ -46,7 +47,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const colorBoxContainer = document.querySelector('.color-box-container');
-    const selectedColorField = document.getElementById('selected-color-field');
+    const selectedColorField = document.getElementById('pm_color');
     const colorBar = document.getElementById('color-bar');
 
     colorBoxContainer.addEventListener('click', (event) => {
@@ -54,7 +55,7 @@
       if (target.classList.contains('color-box')) {
         const colorClass = Array.from(target.classList).find(className => className.startsWith('select-color-'));
         const selectedColorCode = colorClass.replace('select-color-', '');
-        selectedColorField.value = selectedColorCode;
+        selectedColorField.value = `#${selectedColorCode}`;
 
         // カラーバーに色を反映
         colorBar.style.backgroundColor = `#${selectedColorCode}`;
