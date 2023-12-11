@@ -1,18 +1,13 @@
 class ProcessMachinesController < ApplicationController
   before_action :authenticate_user!, expect: [:index]
-  before_action :set_color, expect: [:index]
+  before_action :set_color, expect: [:index , :create]
 
   def index
 
   end
 
   def create
-        @process_machine = ProcessMachine.new(
-      pm_name: params[:process_machine][:pm_name],
-      pm_abbreviation: params[:process_machine][:pm_abbreviation],
-      pm_color: params[:process_machine][:pm_color],
-      user_id: current_user.id
-    )
+        @process_machine = ProcessMachine.new(process_machine_params)
 
     if @process_machine.save
       redirect_to root_path
