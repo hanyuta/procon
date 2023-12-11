@@ -10,7 +10,7 @@
                 <li><%= link_to "新規登録" , new_user_registration_path,class: "nav-item" %></li>
                 <% end %>
                 <% if user_signed_in? && current_user.admin_true == true %>
-                <li><%= link_to "設備/工程登録" , process_machines_path ,class: "nav-item" %></li>
+                <li><%= link_to "設備/工程登録" , "" ,class: "nav-item" %></li>
                 <% end %>
             </ul>
         </div>

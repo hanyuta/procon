@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_07_183116) do
   create_table "clients_info_names", charset: "utf8", force: :cascade do |t|
     t.string "clients_info1_name"
     t.string "clients_info2_name"
@@ -26,14 +26,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_clients_info_names_on_user_id"
-  end
-
-  create_table "process_machines", charset: "utf8", force: :cascade do |t|
-    t.string "pm_name", null: false
-    t.string "pm_abbreviation", null: false
-    t.string "pm_color", default: "#FFFFFF", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
