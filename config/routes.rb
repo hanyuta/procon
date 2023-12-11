@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   resources :schedules
 
-  resources :client_info_names, only: [:index ,:create ]
+  resources :client_info_names, only: [:index ,:create ,:new]
 
-  resources :process_machines, only: [:index ,:create ] 
+  resources :process_machines, only: [:index ,:create ,:new] 
 
 end

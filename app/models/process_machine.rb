@@ -1,7 +1,6 @@
 class ProcessMachine < ApplicationRecord
   
   has_many :process_schedules
-  belongs_to :user
 
   validates :pm_name,                    presence: true 
   validates :lastpm_abbreviation_name,   presence: true ,length: { maximum: 5, message: "は5文字以内で入力してください" }

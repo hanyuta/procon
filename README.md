@@ -82,12 +82,11 @@ belongs_to: schedule
 
 
 process_machines
-| column             | type       | option                           | 
-| ---------------    | ------     | -------------------------------- | 
-| pm_name            | string     | null: false                      | 
-| pm_abbreviation    | string     | null: false                      | 
-| pm_color           | string     | null: false , default: "#FFFFFF" |
-| user               | references | null: false , foreign_key: true  |
+| column          | type   | option                           | 
+| --------------- | ------ | -------------------------------- | 
+| pm_name         | string | null: false                      | 
+| pm_abbreviation | string | null: false                      | 
+| pm_color        | string | null: false , default: "#FFFFFF" |
 
 associations
 has_many:process_schedules

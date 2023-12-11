@@ -3,7 +3,7 @@
         <h2 class="client_info_names_title">顧客情報名称管理</h2>
 
         <div class="info-form-container">
-            <%= form_with model:@client_info_name ,url:client_info_names_path , local: true do |f| %>
+            <%= form_with model:@client_info_name ,url:client_info_names_path do |f| %>
                 <% (1..10).each do |i| %>
                     <div class="info-form-name">
                         <p>顧客情報名称<%= i %></p>
