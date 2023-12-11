@@ -1,0 +1,2 @@
+class ProcessMachine < ApplicationRecord
+end
