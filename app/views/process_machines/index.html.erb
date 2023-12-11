@@ -14,7 +14,7 @@
 
         <%= render 'shared/error_messages', model:@process_machine %>
         <div class="info-form-container">
-            <%= form_with model:@process_machine ,url:process_machines_path do |f| %>
+            <%= form_with model: @process_machine ,url:process_machines_path do |f| %>
                 <div class="info-form-name">
                   <p>工程・設備名</p>
                   <%= f.text_field "pm_name", class: "client-info-text", id: "pm_name" %>
@@ -45,7 +45,7 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('turbo:load', () => {
     const colorBoxContainer = document.querySelector('.color-box-container');
     const selectedColorField = document.getElementById('pm_color');
     const colorBar = document.getElementById('color-bar');

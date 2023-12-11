@@ -31,9 +31,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
   create_table "process_machines", charset: "utf8", force: :cascade do |t|
     t.string "pm_name", null: false
     t.string "pm_abbreviation", null: false
-    t.string "pm_color", default: "#FFFFFF", null: false
+    t.string "pm_color", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_process_machines_on_user_id"
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
@@ -52,4 +54,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
   end
 
   add_foreign_key "clients_info_names", "users"
+  add_foreign_key "process_machines", "users"
 end

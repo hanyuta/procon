@@ -1,4 +1,5 @@
 class ProcessMachinesController < ApplicationController
+  before_action :authenticate_user!, expect: [:index]
   before_action :set_color, expect: [:index]
 
   def index
@@ -6,7 +7,12 @@ class ProcessMachinesController < ApplicationController
   end
 
   def create
-    @process_machine = ProcessMachine.new(process_machine_params)
+        @process_machine = ProcessMachine.new(
+      pm_name: params[:process_machine][:pm_name],
+      pm_abbreviation: params[:process_machine][:pm_abbreviation],
+      pm_color: params[:process_machine][:pm_color],
+      user_id: current_user.id
+    )
 
     if @process_machine.save
       redirect_to root_path
@@ -21,9 +27,9 @@ class ProcessMachinesController < ApplicationController
   private
 
   def process_machine_params
-    puts "Params: #{params.inspect}" # デバッグ用に出力
+    puts "Paraparams: #{params.inspect}" # デバッグ用に出力
 
-    params.require(:process_machine).permit(:pm_name,:pm_abbreviation,:pm_color)
+    params.require(:process_machine).permit(:pm_name,:pm_abbreviation,:pm_color).merge(user_id: current_user.id)
   end
 
   def set_color
