@@ -1,4 +1,5 @@
-document.addEventListener('click', () => {
+function DisplaySelectedColor() {
+
     const colorBoxContainer = document.querySelector('.color-box-container');
     const selectedColorField = document.getElementById('pm_color');
     const colorBar = document.getElementById('color-bar');
@@ -14,4 +15,7 @@ document.addEventListener('click', () => {
         colorBar.style.backgroundColor = `#${selectedColorCode}`;
       }
     });
-  });
+  };
+
+  window.addEventListener('turbo:load',DisplaySelectedColor)
+  window.addEventListener('turbo:render', DisplaySelectedColor)
