@@ -86,7 +86,7 @@ process_machines
 | --------------- | ------ | -------------------------------- | 
 | pm_name         | string | null: false                      | 
 | pm_abbreviation | string | null: false                      | 
-| pm_color        | string | null: false , default: "#FFFFFF" |
+| pm_color        | string | null: false                      |
 
 associations
 has_many:process_schedules
