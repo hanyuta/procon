@@ -1,1 +1,46 @@
-<h1>test</h1>
+<style>
+    <% @colors.each do |color| %>
+      <% sanitized_color = color.gsub("#", "") %>
+      .select-color-<%= sanitized_color %> {
+        background-color: <%= color %>;
+      }
+    <% end %>
+  </style>
+  
+  
+  <div class="register-signin-edit-wrapper"> <!-- user.css -->
+      <div class="process-machines-container">
+          <h2 class="process-machines-title">工程・設備登録</h2>
+  
+          <%= render 'shared/error_messages', model:@process_machine %>
+          <div class="info-form-container">
+              <%= form_with model:@process_machine ,url:process_machines_path do |f| %>
+                  <div class="info-form-name">
+                    <p>工程・設備名</p>
+                    <%= f.text_field "pm_name", class: "client-info-text", id: "pm_name" %>
+                    <p>略称(5文字以内)</p>
+                    <%= f.text_field "pm_abbreviation", class: "client-info-text", id: "pm-abbreviation" %>
+                    <div class="select-color-wrap">
+                    <p>色選択</p>
+                      <div id="color-bar" class="color-bar">※文字色は黒のみです。文字の見える色を選択してください。</div>
+                          <div class="color-view-box">
+                          <%= f.hidden_field "pm_color", id: "pm_color" %>
+                            <div class="color-box-container">
+                              <% @colors.each do |color|  %>
+                                <% sanitized_color = color.gsub("#", "") %>
+                                <div class="color-box select-color-<%= sanitized_color %>" id="select-color-box-<%= sanitized_color %>"></div>
+                              <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="color-attetion">※スケジュール上には選択した色で表示されます</div>
+                  <div class="client-info-actions">
+                      <%= f.submit "登録" , class:"register-login-btn" %>
+                      <%=link_to 'もどる', root_path, class:"client-info-back-btn" %>
+                  </div>
+              <% end %>
+          </div>
+      </div>
+  </div>
+  
