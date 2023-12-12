@@ -1,6 +1,36 @@
-<h1>hello world!</h1>
-<%= link_to "新規登録" , new_user_registration_path %>
+<%= render "shared/main_header" %>
 
-<%= link_to "ログアウト" , destroy_user_session_path ,data:{turbo_method: :delete}  %>
+<div class="main-container">
+    <div class="body-top-wrapper">
+        <% if user_signed_in? %>
+          <div class="login_user_name">ログイン中　<%= current_user.first_name %></div>
+        <% else %>
+          <div class="login_user_name">ログインしていません</div>
+        <% end %>
+        <% if user_signed_in? && current_user.admin_true == true %>
+          <div class="add-lists">
+            <div class="add-schedule-list">
+              <%= link_to "スケジュールを追加" , "" ,class: "add-schedule" %>
+            </div>
+            <div class="add-client-info-list">
+              <%= link_to "顧客情報名称管理" , client_info_names_path ,class: "add-client-info" %>
+            </div>
+          </div>
+        <% end %>
+    </div>
+    <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Day</th>
+          </tr>
+        </thead>
+        <tbody id="calendar-body">
+          <!-- Calendar dates will be inserted here using JavaScript -->
+        </tbody>
+      </table>
+</div>
 
-<%= link_to "ログイン" , new_user_session_path %>
+
+
+<%= render "shared/main_footer" %>

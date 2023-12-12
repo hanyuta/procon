@@ -58,3 +58,4 @@ node_modules/@discoveryjs/json-ext/src/stringify-stream.js
 node_modules/@discoveryjs/json-ext/src/text-decoder-browser.js
 node_modules/@discoveryjs/json-ext/src/text-decoder-browser.js
 node_modules/@discoveryjs/json-ext/src/text-decoder.js
+db/schema.rb
