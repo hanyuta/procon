@@ -1,4 +1,4 @@
-document.addEventListener('turbo:load', () => {
+document.addEventListener('click', () => {
     const colorBoxContainer = document.querySelector('.color-box-container');
     const selectedColorField = document.getElementById('pm_color');
     const colorBar = document.getElementById('color-bar');
