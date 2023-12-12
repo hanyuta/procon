@@ -12,5 +12,5 @@ function AdminPasswordFrom(){
     });
 };
 
-window.addEventListener("DOMContentLoaded",AdminPasswordFrom )
+window.addEventListener("turbo:render",AdminPasswordFrom )
 window.addEventListener("turbo:load", AdminPasswordFrom)
