@@ -4,7 +4,6 @@ RSpec.describe User, type: :model do
 
   before do
     @user = FactoryBot.build(:user)
-    puts @user.first_name
   end
 
   describe 'ユーザー新規登録' do
@@ -18,7 +17,7 @@ RSpec.describe User, type: :model do
       it 'emailが空では登録できない' do
         @user.email = ""
         @user.valid?
-        expect(@user.errors.full_messages).to Include "Email can't be blank"
+        expect(@user.errors.full_messages).to include "Email can't be blank"
       end
       it 'passwordが空では登録できない' do
         @user.password = ''
