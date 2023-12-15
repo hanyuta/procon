@@ -8,7 +8,7 @@
 }
 
 .login_user_name{
-    margin: 5px;
+    margin: 2px;
     font-weight: bold;
     color: 	#666666;
     font-size: 20px;
@@ -16,7 +16,7 @@
 
 .add-lists{
     display: flex;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .add-schedule,
@@ -27,12 +27,12 @@
 
 .add-client-info-list,
 .add-schedule-list{
-    margin: 20px;
+    margin: 0 10px 10px 10px;
     font-weight:bolder;
     padding: 7px;
     border-radius: 25px;
     background-color:#0000CC ;
-
+    font-size: 15px;
 }
 
 .add-client-info-list:hover,
