@@ -12,7 +12,7 @@ function AdminPasswordFrom(){
     });
 };
 
-window.addEventListener("turbo:load",AdminPasswordFrom)
 window.addEventListener("turbo:render",AdminPasswordFrom)
+window.addEventListener("DOMContentLoaded",AdminPasswordFrom)
 
 

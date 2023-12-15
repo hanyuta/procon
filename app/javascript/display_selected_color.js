@@ -17,5 +17,5 @@ function DisplaySelectedColor() {
     });
   };
 
-  window.addEventListener('turbo:load',DisplaySelectedColor)
   window.addEventListener('turbo:render', DisplaySelectedColor)
+  window.addEventListener("DOMContentLoaded",AdminPasswordFrom)
