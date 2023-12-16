@@ -60,3 +60,5 @@ node_modules/@discoveryjs/json-ext/src/text-decoder-browser.js
 node_modules/@discoveryjs/json-ext/src/text-decoder.js
 db/schema.rb
 db/schema.rb
+package-lock.json
+app/javascript/fullcalendar_init.js
