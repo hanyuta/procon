@@ -7,6 +7,10 @@
     background-color:white;
 }
 
+.body-top-wrapper{
+    display: flex;
+}
+
 .login_user_name{
     margin: 2px;
     font-weight: bold;
@@ -43,3 +47,7 @@
 .main-schedule-container{
     height: 60%;
 }
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';

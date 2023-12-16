@@ -11,8 +11,12 @@
                 <% end %>
                 <% if user_signed_in? && current_user.admin_true == true %>
                 <li><%= link_to "設備/工程登録" , process_machines_path ,class: "nav-item" %></li>
+                <li><%= link_to "顧客情報名称管理" , client_info_names_path ,class: "nav-item" %></li>
                 <% end %>
             </ul>
         </div>
     </div>
 </header>
+
+
+
