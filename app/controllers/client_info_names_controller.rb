@@ -1,5 +1,5 @@
 class ClientInfoNamesController < ApplicationController
-    before_action :authenticate_user!, expect: [:index]
+    before_action :authenticate_user!, expect: [:index,:edit]
     
     def index
         @client_info_name = ClientsInfoName.new
@@ -9,6 +9,16 @@ class ClientInfoNamesController < ApplicationController
         @client_info_name = ClientsInfoName.new(client_info_params)
         @client_info_name.save
         redirect_to root_path
+    end
+
+    def edit
+        @client_info_name = ClientsInfoName.first
+    end
+
+    def update
+        redirect_to root_path
+        @client_info_name = ClientsInfoName.first
+        @client_info_name.update(client_info_params)
     end
 
     private
