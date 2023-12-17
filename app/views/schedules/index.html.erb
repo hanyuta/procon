@@ -14,23 +14,86 @@
         <% end %>
     </div>
     <div id="app">
-      <div class="task-calendar-box">
-        <div class="task-container">
-          test
+      <div id="gantt-content" class="gantt-content">
+        <div class="gantt-task">
+          <div class="gantt-task-title">
+            <% (1..10).each do |i| %>
+              <% column_name = "clients_info#{i}_name" %>
+                <% if @client_info_name[column_name].present? %>
+                  <div class="task-item"><%= @client_info_name[column_name] %></div>
+                <% end %>
+            <% end %>
+          </div>
         </div>
-        <div class="gantt-calendar-container">
-          test
+        <div id="gantt-calendar" class="gantt-calendar">
+          <div id="gantt-day" class="gantt-day">
+            <div v-for="(calendar,index) in calendars" :key="index">
+              <div v-for="(day,index) in calendar.days" :key="index">
+                <div class="day-blocks" :style="`width:${block_size}px;left:${day.block_number*block_size}px`">
+                  <span>{{ day.day }}</span>
+                  <span>{{ day.dayOfWeek }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 </div>
 
-
-
-
-
 <script>
     const app = Vue.createApp({
-
+      data(){
+        return{
+          start_month:'',
+          end_month:'',
+          block_size:25,
+          block_number:0,
+          calendars:[]
+        }
+      },
+      methods:{
+        getDays(year, month, block_number) {
+          const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'];
+          let days = [];
+          let date = moment(`${year}-${month}-01`);
+          let num = date.daysInMonth();
+          for (let i = 0; i < num; i++) {
+            days.push({
+              day: date.date(),
+              dayOfWeek: dayOfWeek[date.day()],
+              block_number
+            })
+            date.add(1, 'day');
+            block_number++;
+          }
+          return days;
+        }, 
+        getCalendar() {
+          let block_number = 0;
+          let days;
+          let start_month = moment()
+          let end_month = moment().add(12, 'months')
+          let between_month = end_month.diff(start_month, 'months')
+          for (let i = 0; i <= between_month; i++) {
+            days = this.getDays(start_month.year(), start_month.format('MM'), block_number);
+            this.calendars.push({
+              date: start_month.format('YYYY/MM'),
+              year: start_month.year(),
+              month: start_month.month(), 
+              start_block_number: block_number,
+              calendar: days.length,
+              days: days
+            })
+            start_month.add(1, 'months')
+            block_number = days[days.length - 1].block_number
+            block_number++;
+          }
+          return block_number;
+        },    
+      },
+      mounted() {
+        this.getCalendar();
+      }
     }).mount('#app')
 </script>

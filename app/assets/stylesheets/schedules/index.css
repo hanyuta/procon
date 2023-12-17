@@ -61,14 +61,46 @@
 
 /* schedule-box */
 
-.task-calendar-box{
+.gantt-content{
     display: flex;
+    margin-top: 5px ;
 }
 
-.task-container{
-    
+.gantt-task{
+
 }
 
-.gantt-calendar-container{
+.gantt-task-title{
+    height: 30px;
+    background-color: green;
+    display: flex;
+    text-align: center;
+    color: white;
+}
 
+.task-item{
+    border-right:2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 20px;
+}
+
+.gantt-day{
+    position: relative;
+    height: 12px;
+}
+
+.day-blocks{
+    height: 30px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 13px;
+    border-left: solid 1px bisque;
 }
