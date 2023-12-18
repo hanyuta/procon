@@ -13,25 +13,10 @@ has_one:clients_info_name
 has_many:schedules
 has_many:comments
 
-
-schedules
-| column        | type       | option                          | 
-| ------------- | ---------- | ------------------------------- | 
-| schedule_date | date       |                                 | 
-| user          | references | null: false , foreign_key: true | 
-| clients_info  | references | null: false , foreign_key: true | 
-
-associations
-has_one:client_info
-belongs_to:user
-has_many:comments
-has_many:process_schedules
-
-
 clients_info_name
-| column             | type       | option                          | 
-| ------------------ | ---------- | ------------------------------- | 
-| client_info1_name  | string     |                                 | 
+| column             | type   option                                | 
+| ------------------ | --------------------------------------       | 
+| client_info1_name  |string      |                                 | 
 | client_info2_name  | string     |                                 | 
 | client_info3_name  | string     |                                 | 
 | client_info4_name  | string     |                                 | 
@@ -66,8 +51,32 @@ clients_info
 
 associations
 belongs_to:client_info_name
+belongs_to:user
+has_many:schedules
+has_many:comments
+
+process_machines
+| column          | type   | option                           | 
+| --------------- | ------ | -------------------------------- | 
+| pm_name         | string | null: false                      | 
+| pm_abbreviation | string | null: false                      | 
+| pm_color        | string | null: false                      |
+
+associations
 has_one:schedule
 
+
+schedules
+| column          | type       |option                          | 
+| -------------   | ---------- |------------------------------- | 
+| start_date      | date       | null: false                    | 
+| end_date        | date       | null: false                    | 
+| process_machine | references | null: false , foreign_key:true | 
+| clients_info    | references | null: false , foreign_key:true | 
+
+associations
+belongs_to:client_info
+belongs_to:process_machine
 
 comments
 | column   | type       | option                          | 
@@ -81,22 +90,4 @@ belongs_to: user
 belongs_to: schedule
 
 
-process_machines
-| column          | type   | option                           | 
-| --------------- | ------ | -------------------------------- | 
-| pm_name         | string | null: false                      | 
-| pm_abbreviation | string | null: false                      | 
-| pm_color        | string | null: false                      |
 
-associations
-has_many:process_schedules
-
-process_schedules
-| column          | type       | option                          | 
-| --------------- | ---------- | ------------------------------- | 
-| schedule        | references | null: false , foreign_key: true | 
-| process_machine | references | null: false , foreign_key: true | 
-
-associations
-belongs_to:schedule
-belongs_to:process_machine
