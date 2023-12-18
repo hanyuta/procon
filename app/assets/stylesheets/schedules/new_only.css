@@ -1,0 +1,16 @@
+.body-top-wrapper-new{
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.new-project-title{
+    margin: 10px 20px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.pcocess-machines-box{
+    height: 40vh;
+    margin: 50px 50px;
+    background-color: beige;
+}
