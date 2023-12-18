@@ -8,9 +8,7 @@
           <div class="login_user_name">ログインしていません</div>
         <% end %>
         <% if user_signed_in? && current_user.admin_true == true %>
-            <button class="add-schedule-btn">
-                +スケジュールを追加
-            </button>
+          <%= link_to "+スケジュールを追加" , new_schedule_path ,class:"add-schedule-btn" %>
         <% end %>
     </div>
     <div id="app">
