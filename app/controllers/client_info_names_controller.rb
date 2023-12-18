@@ -16,9 +16,9 @@ class ClientInfoNamesController < ApplicationController
     end
 
     def update
-        redirect_to root_path
         @client_info_name = ClientsInfoName.first
         @client_info_name.update(client_info_params)
+        redirect_to root_path
     end
 
     private
