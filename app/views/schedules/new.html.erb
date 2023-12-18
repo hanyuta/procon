@@ -59,11 +59,22 @@
       </div>
     </div>
     </div>
-  <div class="pcocess-machines-box">
-    <% @process_machine.each do |i| %>
-      <%= i.pm_name %>
-      <%= i.pm_color %>
-    <% end %>
+  <div class="process-machines-box">
+    <div class="process-machines-inner-box">
+      <% @process_machine.each do |i| %>
+          <div class="pm-block" style="background-color: <%= i.pm_color %>;"> 
+            <%= i.pm_name %>
+            <div class="start-day-box">
+              開始日:
+              <input class="start-date-form" v-model="form.start_date"  type="date">
+            </div>
+            <div class="end-day-box">
+              終了日:
+              <input class="end-date-form" v-model="form.end_date"  type="date">
+            </div>
+          </div>
+      <% end %>
+    </div>
   </div>
 </div>
 

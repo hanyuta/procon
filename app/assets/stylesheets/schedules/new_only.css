@@ -9,8 +9,41 @@
     font-weight: bold;
 }
 
-.pcocess-machines-box{
+.process-machines-box{
     height: 40vh;
     margin: 50px 50px;
     background-color: beige;
+    border-radius: 20px;
+}
+
+.process-machines-inner-box{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+
+.pm-block{
+    border: solid 2px #555555;
+    width: 120px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.start-date-form{
+    font-size: 10px;
+    width: 80%;
+}
+
+.end-date-form{
+    font-size: 10px;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.start-day-box,
+.end-day-box{
+    font-size: 12px;
+    margin: 5px 0;
 }
