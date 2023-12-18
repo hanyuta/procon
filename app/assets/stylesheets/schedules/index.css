@@ -61,17 +61,17 @@
 
 /* schedule-box */
 
+/* gantt-task */
 .gantt-content{
     display: flex;
     margin-top: 5px ;
 }
 
 .gantt-task{
-
 }
 
 .gantt-task-title{
-    height: 30px;
+    height: 58px;
     background-color: green;
     display: flex;
     text-align: center;
@@ -79,6 +79,7 @@
 }
 
 .task-item{
+    width: 60px;
     border-right:2px solid white;
     display: flex;
     justify-content: center;
@@ -88,9 +89,15 @@
     padding: 5px 20px;
 }
 
+/* gantt-day */
+
+.gantt-calendar{
+    overflow-x: scroll;
+}
+
 .gantt-day{
     position: relative;
-    height: 12px;
+    height: 32px;
 }
 
 .day-blocks{
@@ -101,6 +108,63 @@
     align-items: center;
     flex-direction: column;
     font-weight: bold;
-    font-size: 13px;
-    border-left: solid 1px bisque;
+    font-size: 11px;
+    padding-top:2px ;
+    border-right: solid 1px bisque;
+    border-bottom: solid 1px bisque;
+}
+
+/* gantt-date */
+
+.gantt-date{
+    height: 25px;
+}
+
+.gantt-year-month{
+    position: relative;
+    height: 8px;
+}
+
+.calendar-date{
+    background-color: #4f46e5;
+    color: #ffffff; 
+    padding-right:1px;
+    border-right: 1px solid #ffffff; 
+    border-top: 1px solid #ffffff; 
+    height: 20px; 
+    width: 100%; 
+    position: absolute; 
+    font-weight: bold; 
+    font-size: 0.875rem; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+}
+
+.gantt-height{
+    position: relative;
+}
+
+.border-height{
+    border-right: 1px solid bisque; /* border-r */
+    border-bottom: 1px solid bisque; /* border-b */
+    position: absolute; /* absolute */
+}
+
+.gantt-bar-area{
+    position: relative;
+}
+.border-height.saturday,
+.day-blocks.saturday{
+    background-color: 	#bae8fa;
+}
+
+.border-height.sunday,
+.day-blocks.sunday{
+    background-color:#ffdee3 ;
+}
+
+.today-pos{
+    background-color: rgb(243, 37, 37);
+    color: wheat;
 }

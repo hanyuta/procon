@@ -14,11 +14,12 @@
         <% end %>
     </div>
     <div id="app">
-    <div v-if="loading">リロードしてください </div>
+    <div v-if="loading">ページをリロードしてください </div>
     <div v-else="loading">
       <div id="gantt-content" class="gantt-content">
-        <div class="gantt-task">
-          <div class="gantt-task-title">
+        <div class="gantt-task" ref="task">
+          <div class="gantt-task-title" >
+            <div class="task-item">顧客名</div>
             <% (1..10).each do |i| %>
               <% column_name = "clients_info#{i}_name" %>
                 <% if @client_info_name[column_name].present? %>
@@ -27,22 +28,44 @@
             <% end %>
           </div>
         </div>
-        <div id="gantt-calendar" class="gantt-calendar">
+        <div id="gantt-calendar" class="gantt-calendar" :style="`width:${calendarViewWidth}px`" ref="calendar">
+          <div id="gantt-date" class="gantt-date">
+            <div class="gantt-year-month">
+              <div v-for="(calendar,index) in calendars" :key="index">
+                <div class="calendar-date" :style="`width:${calendar.calendar*block_size}px;left:${calendar.start_block_number*block_size}px`">
+                  {{calendar.date}}
+                </div>
+              </div>
+            </div>
+          </div>
           <div id="gantt-day" class="gantt-day">
             <div v-for="(calendar,index) in calendars" :key="index">
               <div v-for="(day,index) in calendar.days" :key="index">
-                <div class="day-blocks" :style="`width:${block_size}px;left:${day.block_number*block_size}px`">
+                <div class="day-blocks" :class="{'saturday': day.dayOfWeek === '土', 'sunday': day.dayOfWeek ==='日' , 'today-pos': calendar.year=== today.year() && calendar.month === today.month() && day.day === today.date()}" :style="`width:${block_size}px;left:${day.block_number*block_size}px`">
                   <span>{{ day.day }}</span>
                   <span>{{ day.dayOfWeek }}</span>
                 </div>
               </div>
             </div>
           </div>
+          <div id="gantt-height" class="gantt-height">
+            <div v-for="(calendar,index) in calendars" :key="index">
+              <div v-for="(day,index) in calendar.days" :key="index">
+                <div class="border-height" :class="{'saturday': day.dayOfWeek === '土', 'sunday': day.dayOfWeek ==='日'}" :style="`width:${block_size}px;left:${day.block_number*block_size}px;height:${calendarViewHeight}px`">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="gantt-bar-area" class="gantt-bar-area" :style="`width:${calendarViewWidth}px;height:${calendarViewHeight}px`">
+          </div>
         </div>
       </div>
     </div>
     </div>
 </div>
+
+
 
 <script>
     const app = Vue.createApp({
@@ -55,6 +78,11 @@
           block_size:25,
           block_number:0,
           calendars:[],
+          inner_width: '',
+          inner_height: '',
+          task_width: '',
+          task_height: '',
+          today:moment(),
         };
       },
       methods:{
@@ -112,10 +140,37 @@
           }
           return block_number;
         },    
+        getWindowSize() {
+            this.inner_width = window.innerWidth;
+            this.inner_height = window.innerHeight;
+            this.task_width = this.$refs.task.offsetWidth;
+            this.task_height = this.$refs.task.offsetHeight;
+        },
+        todayPosition() {
+          this.$refs.calendar.scrollLeft = this.scrollDistance
+        },
+      },
+      computed: {
+        calendarViewWidth() {
+          return this.inner_width - this.task_width;
+        },
+        calendarViewHeight() {
+          return this.inner_height - this.task_height - 48 - 60 - 80;
+        },
+        scrollDistance() {
+          let start_date = moment(this.start_month);
+          let between_days = this.today.diff(start_date, 'days')
+          return between_days* this.block_size;
+        },
       },
       mounted() {
         this.fetchData();
         this.getCalendar();
+        this.getWindowSize();
+        this.$nextTick(() => {
+        this.todayPosition();
+        });
+        window.addEventListener('resize', this.getWindowSize);
       }
     }).mount('#app')
 </script>
