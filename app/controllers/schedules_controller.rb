@@ -8,7 +8,7 @@ class SchedulesController < ApplicationController
   def new
     @process_machine = ProcessMachine.all
     @schedule = Schedule.new
-    @client_info = ClientInfo.new
+    @client_info = ClientInfo.last
   end
 
   private
@@ -18,3 +18,4 @@ class SchedulesController < ApplicationController
   end
 
 end
+ 
