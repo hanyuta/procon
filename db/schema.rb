@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_18_150643) do
+  create_table "client_infos", charset: "utf8", force: :cascade do |t|
+    t.string "client_name", null: false
+    t.string "client_info1"
+    t.string "client_info2"
+    t.string "client_info3"
+    t.string "client_info4"
+    t.string "client_info5"
+    t.string "client_info6"
+    t.string "client_info7"
+    t.string "client_info8"
+    t.string "client_info9"
+    t.string "client_info10"
+    t.bigint "clients_info_name_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clients_info_name_id"], name: "index_client_infos_on_clients_info_name_id"
+  end
+
   create_table "clients_info_names", charset: "utf8", force: :cascade do |t|
     t.string "clients_info1_name"
     t.string "clients_info2_name"
@@ -36,6 +54,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "schedules", charset: "utf8", force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.bigint "process_machine_id", null: false
+    t.bigint "client_info_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_info_id"], name: "index_schedules_on_client_info_id"
+    t.index ["process_machine_id"], name: "index_schedules_on_process_machine_id"
+  end
+
   create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -51,5 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_09_133458) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "client_infos", "clients_info_names"
   add_foreign_key "clients_info_names", "users"
+  add_foreign_key "schedules", "client_infos"
+  add_foreign_key "schedules", "process_machines"
 end
