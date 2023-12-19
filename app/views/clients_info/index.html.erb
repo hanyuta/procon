@@ -1,13 +1,19 @@
 <div class="register-signin-edit-wrapper"> <!-- user.css -->
     <div class="client-info-names-container">
-        <h2 class="client_info_names_title">顧客情報名称管理</h2>
+        <h2 class="client_info_names_title">顧客情報登録</h2>
         <div class="info-form-container">
-            <%= form_with model:@client_info_name ,url:client_info_name_path do |f| %>
+            <%= form_with model:@client_info ,url:clients_info_index_path do |f| %>
+                <div class="info-form-name">
+                    <p>顧客名</p>
+                    <%= f.text_field "client_name", class: "client-info-text", id: "client_name" %>
+                </div>
                 <% (1..10).each do |i| %>
+                    <% if @client_info_name.send("clients_info#{i}_name").present? %>
                     <div class="info-form-name">
-                        <p>顧客情報名称<%= i %></p>
-                        <%= f.text_field "clients_info#{i}_name".to_sym, class: "client-info-text", id: "clients-info#{i}_name" %>
+                        <p><%= @client_info_name.send("clients_info#{i}_name") %></p>
+                        <%= f.text_field "client_info#{i}".to_sym, class: "client-info-text", id: "clients-info#{i}_name" %>
                     </div>
+                    <% end %>
                 <% end %>
                 <div class="client-info-actions">
                     <%= f.submit "登録" ,class:"register-login-btn" %>
