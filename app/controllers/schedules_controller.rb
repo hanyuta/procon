@@ -7,6 +7,8 @@ class SchedulesController < ApplicationController
 
   def new
     @process_machine = ProcessMachine.all
+    @schedule = Schedule.new
+    @client_info = ClientInfo.new
   end
 
   private
