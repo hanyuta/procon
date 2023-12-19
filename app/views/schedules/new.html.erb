@@ -59,10 +59,11 @@
       </div>
     </div>
     </div>
+  <button class="add-taskbar-btn">+タスクを追加</button>
   <div class="process-machines-box">
     <div class="process-machines-inner-box">
       <% @process_machine.each do |i| %>
-          <div class="pm-block" style="background-color: <%= i.pm_color %>;"> 
+          <div class="pm-block" style="background-color: <%= i.pm_color %>;" > 
             <%= i.pm_name %>
             <div class="start-day-box">
               開始日:
@@ -168,7 +169,7 @@
           return this.inner_width - this.task_width;
         },
         calendarViewHeight() {
-          return this.inner_height - this.task_height - 48 - 60 - 600;
+          return this.inner_height - this.task_height - 48 - 60 -580;
         },
         scrollDistance() {
           let start_date = moment(this.start_month);
