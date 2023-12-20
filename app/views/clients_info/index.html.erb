@@ -1,6 +1,7 @@
 <div class="register-signin-edit-wrapper"> <!-- user.css -->
     <div class="client-info-names-container">
         <h2 class="client_info_names_title">顧客情報登録</h2>
+        <%= render 'shared/error_messages', model:@client_info %>
         <div class="info-form-container">
             <%= form_with model:@client_info ,url:clients_info_index_path do |f| %>
                 <div class="info-form-name">
@@ -11,7 +12,7 @@
                     <% if @client_info_name.send("clients_info#{i}_name").present? %>
                     <div class="info-form-name">
                         <p><%= @client_info_name.send("clients_info#{i}_name") %></p>
-                        <%= f.text_field "client_info#{i}".to_sym, class: "client-info-text", id: "clients-info#{i}_name" %>
+                        <%= f.text_field "client_info#{i}".to_sym, class: "client-info-text", id: "client_info#{i}" %>
                     </div>
                     <% end %>
                 <% end %>
