@@ -8,8 +8,18 @@ class SchedulesController < ApplicationController
   def new
     @process_machine = ProcessMachine.all
     @schedule = Schedule.new
-    @client_info = ClientInfo.last
+    @client_info = ClientInfo.last  
   end
+
+  def api_data
+    @client_info = ClientInfo.last
+    @pm_tasks = ProcessMachine.all
+    render json: {
+      client_info: @client_info,
+      pm_tasks: @pm_tasks
+    }
+  end
+
 
   private
 
