@@ -77,3 +77,14 @@
     font-size: 12px;
     margin: 5px 0;
 }
+
+.bar-style{
+    height: 100%;
+    width: 100%;
+}
+
+.bar-style-base{
+    border-radius: 10px;
+    position: absolute;
+    height: 15px;
+}

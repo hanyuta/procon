@@ -1,6 +1,7 @@
 <%= render "shared/second_main_header" %>
 
 <div class="main-container">
+  <div id="new_app">
     <div class="body-top-wrapper-new">
         <% if user_signed_in? %>
           <div class="login_user_name">ログイン中 <%= current_user.first_name  %></div>
@@ -8,7 +9,6 @@
           <div class="login_user_name">ログインしていません</div>
         <% end %>
     </div>
-    <div id="new_app">
     <div v-if="loading">ページをリロードしてください </div>
     <div v-else="loading">
       <div class="new-project-title">スケジュール新規登録</div>
@@ -64,19 +64,31 @@
             </div>
           </div>
           <div id="gantt-bar-area" class="gantt-bar-area" :style="`width:${calendarViewWidth}px;height:${calendarViewHeight}px`">
+            <div v-for="(bar,index) in taskBars" :key="index">
+              <div :style="bar.style" class="bar-style-base" v-if="between !== ''">
+                <div class="bar-style">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-  <button class="add-taskbar-btn">+タスクを追加</button>
-  <div class="process-machines-box">
-    <div class="process-machines-inner-box">
-          <div v-for="(task, index) in pm_tasks" :key="index">
-            <div class="pm-block" :style="{ backgroundColor: task.pm_color }"> 
-              {{ task.pm_name }}
+
+    <div class="process-machines-box">
+      <div class="process-machines-inner-box">
+        <div v-for="(task, index) in pm_tasks" :key="index">
+          <div class="pm-block" :style="{ backgroundColor: task.pm_color }">
+            <span>{{ task.pm_name }}</span>
+            <div class="start-day-box">開始日
+              <input class="start-date-form" v-model="task.start_day" type="date">
+            </div>
+            <div class="end-day-box">終了日
+              <input class="end-date-form" v-model="task.end_day"  type="date">
             </div>
           </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -179,7 +191,8 @@
             this.pm_tasks = result.pm_tasks.map(task => ({
               ...task,
               start_day: "",
-              end_day: ""
+              end_day: "",
+              client_id: this.client_info.id,
             }));
             console.log('取得に成功しました。Client Info:', this.client_info);
             console.log('取得に成功しました。PM Tasks:', this.pm_tasks);
@@ -203,12 +216,44 @@
           let between_days = this.today.diff(start_date, 'days')
           return between_days* this.block_size;
         },
+        taskBars() {
+          let start_date = moment();
+          let top = 5;
+          let left;
+          let between;
+          let start;
+          let style;
+          return this.pm_tasks.map(task => {
+            style = {}
+            if(task.start_day !== '' && task.end_day !== '' && task.end_day >= task.start_day){
+              let date_from = moment(task.start_day);
+              let date_to = moment(task.end_day);
+              between = date_to.diff(date_from, 'days');
+              between++;
+              start = date_from.diff(start_date, 'days');
+              left = start * this.block_size;
+              style = {
+                top: `${top}px`,
+                left: `${left}px`,
+                width: `${this.block_size * between}px`,
+                'background-color': task.pm_color,
+              }
+              console.log(style)
+            }
+            top = top + 20;
+            return {
+              style,
+              task
+            }
+          })
+        },
       },
       mounted() {
         this.fetchData();
         this.getSchedule();
         this.getCalendar();
         this.getWindowSize();
+        this.taskBars();
         this.$nextTick(() => {
         this.todayPosition();
         });
