@@ -18,9 +18,19 @@
             <div class="task-item">顧客名</div>
             <% (1..10).each do |i| %>
               <% column_name = "clients_info#{i}_name" %>
-                <% if @client_info_name[column_name].present? %>
-                  <div class="task-item"><%= @client_info_name[column_name] %></div>
-                <% end %>
+              <% if @client_info_name[column_name].present? %>
+                <div class="task-item"><%= @client_info_name[column_name] %></div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="new-task-item-box">
+            <% @client_info.id %>
+            <div class="new-task-item"><%= @client_info.client_name %></div>
+              <% (1..10).each do |i| %>
+              <% column_name = "client_info#{i}" %>
+              <%if @client_info[column_name].present? %>
+                <div class="new-task-item"><%= @client_info[column_name] %></div>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -62,26 +72,18 @@
   <button class="add-taskbar-btn">+タスクを追加</button>
   <div class="process-machines-box">
     <div class="process-machines-inner-box">
-      <% @process_machine.each do |i| %>
-          <div class="pm-block" style="background-color: <%= i.pm_color %>;" > 
-            <%= i.pm_name %>
-            <div class="start-day-box">
-              開始日:
-              <input class="start-date-form" v-model="form.start_date"  type="date">
-            </div>
-            <div class="end-day-box">
-              終了日:
-              <input class="end-date-form" v-model="form.end_date"  type="date">
+          <div v-for="(task, index) in pm_tasks" :key="index">
+            <div class="pm-block" :style="{ backgroundColor: task.pm_color }"> 
+              {{ task.pm_name }}
             </div>
           </div>
-      <% end %>
     </div>
   </div>
 </div>
 
 
-
 <script>
+
     const new_app = Vue.createApp({
       data(){
         return{
@@ -97,6 +99,8 @@
           task_width: '',
           task_height: '',
           today:moment(),
+          client_info:[],
+          pm_tasks:[],
         };
       },
       methods:{
@@ -163,6 +167,29 @@
         todayPosition() {
           this.$refs.calendar.scrollLeft = this.scrollDistance
         },
+        async getSchedule() {
+          try {
+            const response = await fetch('/schedules/api_data');
+            if (!response.ok) {
+              throw new Error(`HTTPエラー! ステータス: ${response.status}`);
+            }
+            const result = await response.json();
+            this.client_info = result.client_info;
+            this.pm_tasks = result.pm_tasks;
+            this.pm_tasks = result.pm_tasks.map(task => ({
+              ...task,
+              start_day: "",
+              end_day: ""
+            }));
+            console.log('取得に成功しました。Client Info:', this.client_info);
+            console.log('取得に成功しました。PM Tasks:', this.pm_tasks);
+          } catch (error) {
+            console.error('データの取得に失敗しました。', error.message);
+            this.reloadOnCatch();
+          } finally {
+            this.loading = false;
+          }
+        },
       },
       computed: {
         calendarViewWidth() {
@@ -179,6 +206,7 @@
       },
       mounted() {
         this.fetchData();
+        this.getSchedule();
         this.getCalendar();
         this.getWindowSize();
         this.$nextTick(() => {
