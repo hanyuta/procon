@@ -9,6 +9,25 @@
     font-weight: bold;
 }
 
+.register-title-box{
+    display: flex;
+    align-items: center;
+}
+
+.regist-btn{
+    height: 35px;
+    width: 80px;
+    background: rgb(63, 112, 219);
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.regist-btn:hover{
+    opacity: 0.7;
+}
+
 .new-task-item-box{
     margin-top: 10px;
     display: flex;
@@ -87,4 +106,32 @@
     border-radius: 10px;
     position: absolute;
     height: 15px;
+}
+
+.left-cursor{
+    cursor: col-resize;
+    position: absolute;
+    top: 1.5px;
+    left: 0px;
+    width: 3px;
+    height: 10px;
+    background-color: #6d6d6d;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px 0px 0px 4px;
+    border-color: #000;
+}
+
+.right-cursor{
+    cursor: col-resize;
+    position: absolute;
+    top: 1.5px;
+    right: 0px;
+    width: 3px;
+    height: 10px;
+    background-color: #696969;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0px 4px 4px 0px;
+    border-color: #000;
 }

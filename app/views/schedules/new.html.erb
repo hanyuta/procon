@@ -11,7 +11,10 @@
     </div>
     <div v-if="loading">ページをリロードしてください </div>
     <div v-else="loading">
-      <div class="new-project-title">スケジュール新規登録</div>
+      <div class="register-title-box">
+        <div class="new-project-title">スケジュール新規登録</div>
+        <button class="regist-btn">登録</button>
+      </div>
       <div id="gantt-content" class="gantt-content">
         <div class="gantt-task" ref="task">
           <div class="gantt-task-title" >
@@ -65,9 +68,10 @@
           </div>
           <div id="gantt-bar-area" class="gantt-bar-area" :style="`width:${calendarViewWidth}px;height:${calendarViewHeight}px`">
             <div v-for="(bar,index) in taskBars" :key="index">
-              <div :style="bar.style" class="bar-style-base" v-if="between !== ''">
-                <div class="bar-style">
-                </div>
+              <div :style="bar.style" class="bar-style-base" v-if="between !== ''" @mousedown = "mouseDownMove(bar.task)">
+                <div class="bar-style" style="pointer-events: none;"></div>
+                  <div class="left-cursor" @mousedown.stop="mouseDownResize(bar.task,'left')"></div>
+                  <div class="right-cursor" @mousedown.stop="mouseDownResize(bar.task,'right')"></div>
               </div>
             </div>
           </div>
@@ -113,6 +117,14 @@
           today:moment(),
           client_info:[],
           pm_tasks:[],
+          dragging:false,
+          pageX:'',
+          elememt:'',
+          left:'',
+          task_id:'',
+          width:'', 
+          leftResizing:false,
+          rightResizing:false,
         };
       },
       methods:{
@@ -203,6 +215,98 @@
             this.loading = false;
           }
         },
+        mouseDownMove(task){
+          this.dragging = true;
+          this.pageX = event.pageX;
+          this.element = event.target;
+          this.left = event.target.style.left;
+          this.task_id = task.id
+        },
+        mouseMove (){
+          if (this.dragging) {
+            let diff = this.pageX - event.pageX;
+            this.element.style.left = `${parseInt(this.left.replace('px', '')) - diff}px`;
+          }
+        },
+        stopDrag(){
+          if (this.dragging) {
+            let diff = this.pageX - event.pageX
+            let days = Math.ceil(diff / this.block_size)
+            if (days !== 0) {
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let start_day = moment(task.start_day).add(-days, 'days')
+              let end_day = moment(task.end_day).add(-days, 'days')
+              task['start_day'] = start_day.format('YYYY-MM-DD')
+              task['end_day'] = end_day.format('YYYY-MM-DD')
+            } else {
+              this.element.style.left = `${this.left.replace('px', '')}px`;
+            }
+          }
+          if (this.leftResizing) {
+            let diff = this.pageX - event.pageX;
+            let days = Math.ceil(diff / this.block_size)
+            if (days !== 0) {
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let start_day = moment(task.start_day).add(-days, 'days')
+              let end_day = moment(task.end_day)
+              if (end_day.diff(start_day, 'days') <= 0) {
+                task['start_day'] = end_day.format('YYYY-MM-DD')
+              } else {
+                task['start_day'] = start_day.format('YYYY-MM-DD')
+              }
+            } else {
+              this.element.style.width = this.width;
+              this.element.style.left = `${this.left.replace('px', '')}px`;
+            }
+          }
+          if (this.rightResizing) {
+            let diff = this.pageX - event.pageX;
+            let days = Math.ceil(diff / this.block_size)
+            if (days === 1) {
+              this.element.style.width = `${parseInt(this.width.replace('px', ''))}px`;
+            } else if (days <= 2) {
+              days--;
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let end_day = moment(task.end_day).add(-days, 'days')
+              task['end_day'] = end_day.format('YYYY-MM-DD')
+            } else {
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let start_day = moment(task.start_day);
+              let end_day = moment(task.end_day).add(-days, 'days')
+              if (end_day.diff(start_day, 'days') < 0) {
+                task['end_day'] = start_day.format('YYYY-MM-DD')
+              } else {
+                task['end_day'] = end_day.format('YYYY-MM-DD')
+              }
+            }
+          }
+          this.dragging = false;
+          this.leftResizing = false;
+          this.rightResizing = false;
+        },
+        mouseDownResize(task, direction) {
+          direction === 'left' ? this.leftResizing = true : this.rightResizing = true;
+          this.pageX = event.pageX;
+          this.width = event.target.parentElement.style.width;
+          this.left = event.target.parentElement.style.left;
+          this.element = event.target.parentElement;
+          this.task_id = task.id
+        },
+        mouseResize() {
+          if (this.leftResizing) {
+            let diff = this.pageX - event.pageX
+            if (parseInt(this.width.replace('px', '')) + diff > this.block_size) {
+              this.element.style.width = `${parseInt(this.width.replace('px', '')) + diff}px`
+              this.element.style.left = `${this.left.replace('px', '') - diff}px`;
+            }
+          }
+          if (this.rightResizing) {
+            let diff = this.pageX - event.pageX;
+            if (parseInt(this.width.replace('px', '')) - diff > this.block_size) {
+              this.element.style.width = `${parseInt(this.width.replace('px', '')) - diff}px`
+            }
+          }
+        },
       },
       computed: {
         calendarViewWidth() {
@@ -217,8 +321,8 @@
           return between_days* this.block_size;
         },
         taskBars() {
-          let start_date = moment();
-          let top = 5;
+          let start_date = moment().startOf('month');
+          let top = 10;
           let left;
           let between;
           let start;
@@ -238,22 +342,23 @@
                 width: `${this.block_size * between}px`,
                 'background-color': task.pm_color,
               }
-              console.log(style)
             }
-            top = top + 20;
+            top = top + 18;
             return {
               style,
-              task
+              task,
             }
           })
         },
       },
       mounted() {
+        window.addEventListener('mousemove', this.mouseMove);
+        window.addEventListener('mousemove', this.mouseResize);
+        window.addEventListener('mouseup', this.stopDrag);
         this.fetchData();
         this.getSchedule();
         this.getCalendar();
         this.getWindowSize();
-        this.taskBars();
         this.$nextTick(() => {
         this.todayPosition();
         });
