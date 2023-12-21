@@ -11,6 +11,10 @@ class SchedulesController < ApplicationController
     @client_info = ClientInfo.last  
   end
 
+  def create
+
+  end
+
   def api_data
     @client_info = ClientInfo.last
     @pm_tasks = ProcessMachine.all
@@ -28,4 +32,3 @@ class SchedulesController < ApplicationController
   end
 
 end
- 

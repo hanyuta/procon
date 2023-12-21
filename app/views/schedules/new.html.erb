@@ -13,7 +13,7 @@
     <div v-else="loading">
       <div class="register-title-box">
         <div class="new-project-title">スケジュール新規登録</div>
-        <button class="regist-btn">登録</button>
+        <button class="regist-btn" @click="saveData">登録</button>
       </div>
       <div id="gantt-content" class="gantt-content">
         <div class="gantt-task" ref="task">
@@ -305,6 +305,29 @@
             if (parseInt(this.width.replace('px', '')) - diff > this.block_size) {
               this.element.style.width = `${parseInt(this.width.replace('px', '')) - diff}px`
             }
+          }
+        },
+        async saveData() {
+          try {
+            const response = await fetch('/schedules/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                client_info: this.client_info,
+                pm_tasks: this.pm_tasks,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTPエラー! ステータス: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('データが保存されました:', result);
+          } catch (error) {
+            console.error('データの保存に失敗しました。', error);
           }
         },
       },
