@@ -63,9 +63,33 @@
     </div>
 </div>
 
+<div class="sidebar" id="sidebar">
+  <div class="comment-list">
+  <input type="checkbox" >
+  <div class="comment">〇〇〇:10/16日からの設備3のスケジュールは変更可能ですか</div>
+  </div>
+  <div class="comment_form">
+    <input class="comment_input" >
+    <input class="comment_btn" type="button" value="投稿">
+  </div>
+</div>
 
+<div id="openButton"><< comments</div>
+<div id="under_openButton">^ 負荷量 ^</div>
 
 <script>
+  document.getElementById('openButton').addEventListener('click', function() {
+    var sidebar = document.getElementById('sidebar');
+    if (sidebar.style.width == '0px' || sidebar.style.width == '') {
+      sidebar.style.width = '350px';
+      sidebar.style.right = '0';
+    } else {
+      sidebar.style.width = '0';
+      sidebar.style.right = '-350px';
+    }
+  });
+
+
     const app = Vue.createApp({
       data(){
         return{
@@ -171,4 +195,6 @@
         window.addEventListener('resize', this.getWindowSize);
       }
     }).mount('#app')
+
+
 </script>
