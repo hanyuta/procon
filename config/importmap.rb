@@ -7,4 +7,3 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "admin_check" , to: "admin_user_check.js"
 pin "display_color" , to: "display_selected_color.js"
-pin "comment_bar" , to: "comment_bar.js"
