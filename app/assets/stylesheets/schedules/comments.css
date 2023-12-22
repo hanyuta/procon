@@ -79,9 +79,7 @@ body {
 
 .comment-list{
   top:0;
-  scrollbar-arrow-color: aqua;
   overflow-y: scroll;
   height:calc(100vh - 65px);
   background-color: #006c7a;
 }
-
