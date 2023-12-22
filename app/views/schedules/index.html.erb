@@ -61,24 +61,26 @@
       </div>
     </div>
     </div>
+
 </div>
 
 <div class="sidebar" id="sidebar">
   <div class="comment-list">
   </div>
-  <%= form_with url:"", id:"comment_form" , class:"comment_form" do |f| %>
-    <%= f.text_field :comment_input , class:"comment_input" , id:"comment_input" %>
+  <%= form_with url:comments_path, method: :post, id:"comment_form" , class:"comment_form" do |f| %>
+    <%= f.text_field :comment , class:"comment_input" , id:"comment_input" %>
     <%= f.submit '投稿' , class:"comment_btn" , id:"comment_btn" %>
   <% end %>
 </div>
 
-<div id="openButton">< COMMENTS</div>
-<!-- <div id="under_openButton">^ 負荷量 ^</div> -->
+<% if user_signed_in? %>
+  <div id="openButton">< COMMENTS</div>
+  <!-- <div id="under_openButton">^ 負荷量 ^</div> -->
+<% end %>
 
 <script>
-  document.getElementById('comment_btn').addEventListener('submit', () =>{
-    const formComment = new FormData(document.getElementById("comment_input"));
-    console.log(formComment)
+  document.getElementById('comment_btn').addEventListener('submit', (e) =>{
+    console.log("test")
   });
 
   document.getElementById('openButton').addEventListener('click', function() {
