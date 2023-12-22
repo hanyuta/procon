@@ -15,4 +15,6 @@ Rails.application.routes.draw do
 
   resources :process_machines, only: [:index ,:create]
 
+  resources :comments, only: [:create]
+
 end

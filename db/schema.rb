@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_18_150643) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_21_034611) do
   create_table "client_infos", charset: "utf8", force: :cascade do |t|
     t.string "client_name", null: false
     t.string "client_info1"
@@ -44,6 +44,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_150643) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_clients_info_names_on_user_id"
+  end
+
+  create_table "comments", charset: "utf8", force: :cascade do |t|
+    t.string "comment", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "process_machines", charset: "utf8", force: :cascade do |t|
@@ -82,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_18_150643) do
 
   add_foreign_key "client_infos", "clients_info_names"
   add_foreign_key "clients_info_names", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "schedules", "client_infos"
   add_foreign_key "schedules", "process_machines"
 end
