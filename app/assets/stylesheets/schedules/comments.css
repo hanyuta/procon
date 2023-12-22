@@ -10,20 +10,10 @@ body {
   position: fixed;
   top: 0;
   right: -300px; /* 右端からスタート */
-  background-color: #696969;
+  background-color: #005f6b;
   color: white;
   transition: 0.5s; /* トランジション効果を追加 */
   z-index: 3;
-}
-
-.sidebar a {
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 25px;
-  color: white;
-  display: block;
-  transition: 0.3s;
 }
 
 .sidebar a:hover {
@@ -34,22 +24,31 @@ body {
   position: fixed;
   bottom: 0;
   right: 0;
-  border-radius: 20px 0px 0px 10px;
+  border-radius: 20px 0px 0px 20px;
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #555555;
   color: white;
   cursor: pointer;
   z-index: 4;
+  font-size: 10px;
+  transition: 0.5s;
+  writing-mode: vertical-rl; /* 縦書き（右から左） */
+  text-orientation: upright; /* テキストの方向を垂直に保つ */
+  white-space: nowrap;
 }
 
-.comment{
-  padding: 10px;
+#openButton:hover{
+  font-weight: bold;
+  font-size: 9px;
+  opacity: 0.7;
+  letter-spacing: 0.5px;
 }
 
 .comment_form{
-  width: 330px;
+  width: 340px;
+  height: 43px;
   position: fixed;
-  bottom: 50px;
+  bottom: 10px;
   display: flex;
   justify-content: center;
 }
@@ -61,10 +60,28 @@ body {
   margin-left: 10px;
 }
 
+.comment_input{
+  border-radius: 10px;
+  font-size: 20px;
+}
+
 .comment_btn{
-  border-radius: 3px;
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+  font-weight: bold;
+  margin-left: 5px;
+  background-color: #afafaf;
+}
+
+.comment_btn:hover{
+  background-color: rgb(183, 217, 231);
 }
 
 .comment-list{
-  display: flex;
+  top:0;
+  scrollbar-arrow-color: aqua;
+  overflow-y: scroll;
+  height:calc(100vh - 65px);
+  background-color: #006c7a;
 }
+
