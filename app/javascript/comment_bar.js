@@ -1,4 +1,5 @@
 function CommentBar(){
+  
   document.getElementById('openButton').addEventListener('click', function() {
     var sidebar = document.getElementById('sidebar');
     if (sidebar.style.width == '0px' || sidebar.style.width == '') {
@@ -11,4 +12,4 @@ function CommentBar(){
   });
 }
 
-window.addEventListener("DOMContentLoaded",CommentBar)
+window.addEventListener("turbo:load",CommentBar)
