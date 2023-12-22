@@ -1,0 +1,173 @@
+  /* body */
+  
+  /* body-top */
+.main-container{
+    width: 100%;
+    height: 89vh;
+    background-color:white;
+}
+
+.body-top-wrapper{
+    display: flex;
+}
+
+
+.login_user_name{
+    margin: 2px;
+    font-weight: bold;
+    color: 	#666666;
+    font-size: 20px;
+}
+
+.add-lists{
+    display: flex;
+    font-size: 18px;
+}
+
+.add-schedule,
+.add-client-info{
+    text-decoration: none;
+    color:	white;
+}
+
+.add-client-info-list,
+.add-schedule-list{
+    margin: 0 10px 10px 10px;
+    font-weight:bolder;
+    padding: 7px;
+    border-radius: 25px;
+    background-color:#0000CC ;
+    font-size: 15px;
+}
+
+.add-client-info-list:hover,
+.add-schedule-list:hover{
+    background-color:#11FFFF;
+}
+
+.add-schedule-btn{
+    height: 25px;
+    background-color: #0066FF;
+    color: white;
+    margin:2px 10px 0px 10px;
+    padding: 0px 5px;
+    border-radius: 10px;
+    border: solid #0033CC ;
+    text-decoration: none;
+}
+
+.add-schedule-btn:hover{
+    opacity: 0.7;
+    font-weight: bold;
+    border:solid #11FFFF;
+}
+
+/* schedule-box */
+
+/* gantt-task */
+.gantt-content{
+    display: flex;
+    margin-top: 5px ;
+}
+
+.gantt-task{
+}
+
+.gantt-task-title{
+    height: 58px;
+    background-color: green;
+    display: flex;
+    text-align: center;
+    color: white;
+}
+
+.task-item{
+    width: 60px;
+    border-right:2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 20px;
+}
+
+/* gantt-day */
+
+.gantt-calendar{
+    overflow-x: scroll;
+}
+
+.gantt-day{
+    position: relative;
+    height: 32px;
+}
+
+.day-blocks{
+    height: 30px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 11px;
+    padding-top:2px ;
+    border-right: solid 1px bisque;
+    border-bottom: solid 1px bisque;
+}
+
+/* gantt-date */
+
+.gantt-date{
+    height: 25px;
+}
+
+.gantt-year-month{
+    position: relative;
+    height: 8px;
+}
+
+.calendar-date{
+    background-color: #4f46e5;
+    color: #ffffff; 
+    padding-right:1px;
+    border-right: 1px solid #ffffff; 
+    border-top: 1px solid #ffffff; 
+    height: 20px; 
+    width: 100%; 
+    position: absolute; 
+    font-weight: bold; 
+    font-size: 0.875rem; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+}
+
+.gantt-height{
+    position: relative;
+}
+
+.border-height{
+    border-right: 1px solid bisque; /* border-r */
+    border-bottom: 1px solid bisque; /* border-b */
+    position: absolute; /* absolute */
+}
+
+.gantt-bar-area{
+    position: relative;
+}
+.border-height.saturday,
+.day-blocks.saturday{
+    background-color: 	#bae8fa;
+}
+
+.border-height.sunday,
+.day-blocks.sunday{
+    background-color:#ffdee3 ;
+}
+
+.today-pos{
+    background-color: rgb(243, 37, 37);
+    color: wheat;
+}

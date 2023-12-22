@@ -1,0 +1,398 @@
+<%= render "shared/second_main_header" %>
+
+<div class="main-container">
+  <div id="new_app">
+    <div class="body-top-wrapper-new">
+        <% if user_signed_in? %>
+          <div class="login_user_name">ログイン中 <%= current_user.first_name  %></div>
+        <% else %>
+          <div class="login_user_name">ログインしていません</div>
+        <% end %>
+    </div>
+    <div v-if="loading">ページをリロードしてください </div>
+    <div v-else="loading">
+      <div class="register-title-box">
+        <div class="new-project-title">スケジュール新規登録</div>
+        <button class="regist-btn" @click="check">登録</button>
+      </div>
+      <div id="gantt-content" class="gantt-content">
+        <div class="gantt-task" ref="task">
+          <div class="gantt-task-title" >
+            <div class="task-item">顧客名</div>
+            <% (1..10).each do |i| %>
+              <% column_name = "clients_info#{i}_name" %>
+              <% if @client_info_name[column_name].present? %>
+                <div class="task-item"><%= @client_info_name[column_name] %></div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="new-task-item-box">
+            <% @client_info.id %>
+            <div class="new-task-item"><%= @client_info.client_name %></div>
+              <% (1..10).each do |i| %>
+              <% column_name = "client_info#{i}" %>
+              <%if @client_info[column_name].present? %>
+                <div class="new-task-item"><%= @client_info[column_name] %></div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div id="gantt-calendar" class="gantt-calendar" :style="`width:${calendarViewWidth}px`" ref="calendar">
+          <div id="gantt-date" class="gantt-date">
+            <div class="gantt-year-month">
+              <div v-for="(calendar,index) in calendars" :key="index">
+                <div class="calendar-date" :style="`width:${calendar.calendar*block_size}px;left:${calendar.start_block_number*block_size}px`">
+                  {{calendar.date}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="gantt-day" class="gantt-day">
+            <div v-for="(calendar,index) in calendars" :key="index">
+              <div v-for="(day,index) in calendar.days" :key="index">
+                <div class="day-blocks" :class="{'saturday': day.dayOfWeek === '土', 'sunday': day.dayOfWeek ==='日' , 'today-pos': calendar.year=== today.year() && calendar.month === today.month() && day.day === today.date()}" :style="`width:${block_size}px;left:${day.block_number*block_size}px`">
+                  <span>{{ day.day }}</span>
+                  <span>{{ day.dayOfWeek }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="gantt-height" class="gantt-height">
+            <div v-for="(calendar,index) in calendars" :key="index">
+              <div v-for="(day,index) in calendar.days" :key="index">
+                <div class="border-height" :class="{'saturday': day.dayOfWeek === '土', 'sunday': day.dayOfWeek ==='日'}" :style="`width:${block_size}px;left:${day.block_number*block_size}px;height:${calendarViewHeight}px`">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="gantt-bar-area" class="gantt-bar-area" :style="`width:${calendarViewWidth}px;height:${calendarViewHeight}px`">
+            <div v-for="(bar,index) in taskBars" :key="index">
+              <div :style="bar.style" class="bar-style-base" v-if="between !== ''" @mousedown = "mouseDownMove(bar.task)">
+                <div class="bar-style" style="pointer-events: none;"></div>
+                  <div class="left-cursor" @mousedown.stop="mouseDownResize(bar.task,'left')"></div>
+                  <div class="right-cursor" @mousedown.stop="mouseDownResize(bar.task,'right')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="process-machines-box">
+      <div class="process-machines-inner-box">
+        <div v-for="(task, index) in pm_tasks" :key="index">
+          <div class="pm-block" :style="{ backgroundColor: task.pm_color }">
+            <span>{{ task.pm_name }}</span>
+            <div class="start-day-box">開始日
+              <input class="start-date-form" v-model="task.start_day" type="date">
+            </div>
+            <div class="end-day-box">終了日
+              <input class="end-date-form" v-model="task.end_day"  type="date">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    const new_app = Vue.createApp({
+      data(){
+        return{
+          loading:true,
+          data:null,
+          start_month:'',
+          end_month:'',
+          block_size:25,
+          block_number:0,
+          calendars:[],
+          inner_width: '',
+          inner_height: '',
+          task_width: '',
+          task_height: '',
+          today:moment(),
+          client_info:[],
+          pm_tasks:[],
+          dragging:false,
+          pageX:'',
+          elememt:'',
+          left:'',
+          task_id:'',
+          width:'', 
+          leftResizing:false,
+          rightResizing:false,
+        };
+      },
+      methods:{
+        async fetchData() {
+          try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+            const result = await response.json();
+            
+            this.data = result;
+          } catch (error) {
+            console.error('データの取得に失敗しました。ページをリロードしてください', error);
+            this.reloadOnCatch();
+          } finally {
+            this.loading = false;
+          }
+        },
+        reloadOnCatch() {
+          window.location.reload();
+        },
+        getDays(year, month, block_number) {
+          const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'];
+          let days = [];
+          let date = moment(`${year}-${month}-01`);
+          let num = date.daysInMonth();
+          for (let i = 0; i < num; i++) {
+            days.push({
+              day: date.date(),
+              dayOfWeek: dayOfWeek[date.day()],
+              block_number
+            })
+            date.add(1, 'day');
+            block_number++;
+          }
+          return days;
+        }, 
+        getCalendar() {
+          let block_number = 0;
+          let days;
+          let start_month = moment()
+          let end_month = moment().add(12, 'months')
+          let between_month = end_month.diff(start_month, 'months')
+          for (let i = 0; i <= between_month; i++) {
+            days = this.getDays(start_month.year(), start_month.format('MM'), block_number);
+            this.calendars.push({
+              date: start_month.format('YYYY/MM'),
+              year: start_month.year(),
+              month: start_month.month(), 
+              start_block_number: block_number,
+              calendar: days.length,
+              days: days
+            })
+            start_month.add(1, 'months')
+            block_number = days[days.length - 1].block_number
+            block_number++;
+          }
+          return block_number;
+        },    
+        getWindowSize() {
+            this.inner_width = window.innerWidth;
+            this.inner_height = window.innerHeight;
+            this.task_width = this.$refs.task.offsetWidth;
+            this.task_height = this.$refs.task.offsetHeight;
+        },
+        todayPosition() {
+          this.$refs.calendar.scrollLeft = this.scrollDistance
+        },
+        async getSchedule() {
+          try {
+            const response = await fetch('/schedules/api_data');
+            if (!response.ok) {
+              throw new Error(`HTTPエラー! ステータス: ${response.status}`);
+            }
+            const result = await response.json();
+            this.client_info = result.client_info;
+            this.pm_tasks = result.pm_tasks;
+            this.pm_tasks = result.pm_tasks.map(task => ({
+              ...task,
+              start_day: "",
+              end_day: "",
+              can_be_saved:false,
+              client_id: this.client_info.id,
+            }));
+            console.log('取得に成功しました。Client Info:', this.client_info);
+            console.log('取得に成功しました。PM Tasks:', this.pm_tasks);
+          } catch (error) {
+            console.error('データの取得に失敗しました。', error.message);
+            this.reloadOnCatch();
+          } finally {
+            this.loading = false;
+          }
+        },
+        mouseDownMove(task){
+          this.dragging = true;
+          this.pageX = event.pageX;
+          this.element = event.target;
+          this.left = event.target.style.left;
+          this.task_id = task.id
+        },
+        mouseMove (){
+          if (this.dragging) {
+            let diff = this.pageX - event.pageX;
+            this.element.style.left = `${parseInt(this.left.replace('px', '')) - diff}px`;
+          }
+        },
+        stopDrag(){
+          if (this.dragging) {
+            let diff = this.pageX - event.pageX
+            let days = Math.ceil(diff / this.block_size)
+            if (days !== 0) {
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let start_day = moment(task.start_day).add(-days, 'days')
+              let end_day = moment(task.end_day).add(-days, 'days')
+              task['start_day'] = start_day.format('YYYY-MM-DD')
+              task['end_day'] = end_day.format('YYYY-MM-DD')
+            } else {
+              this.element.style.left = `${this.left.replace('px', '')}px`;
+            }
+          }
+          if (this.leftResizing) {
+            let diff = this.pageX - event.pageX;
+            let days = Math.ceil(diff / this.block_size)
+            if (days !== 0) {
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let start_day = moment(task.start_day).add(-days, 'days')
+              let end_day = moment(task.end_day)
+              if (end_day.diff(start_day, 'days') <= 0) {
+                task['start_day'] = end_day.format('YYYY-MM-DD')
+              } else {
+                task['start_day'] = start_day.format('YYYY-MM-DD')
+              }
+            } else {
+              this.element.style.width = this.width;
+              this.element.style.left = `${this.left.replace('px', '')}px`;
+            }
+          }
+          if (this.rightResizing) {
+            let diff = this.pageX - event.pageX;
+            let days = Math.ceil(diff / this.block_size)
+            if (days === 1) {
+              this.element.style.width = `${parseInt(this.width.replace('px', ''))}px`;
+            } else if (days <= 2) {
+              days--;
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let end_day = moment(task.end_day).add(-days, 'days')
+              task['end_day'] = end_day.format('YYYY-MM-DD')
+            } else {
+              let task = this.pm_tasks.find(task => task.id === this.task_id);
+              let start_day = moment(task.start_day);
+              let end_day = moment(task.end_day).add(-days, 'days')
+              if (end_day.diff(start_day, 'days') < 0) {
+                task['end_day'] = start_day.format('YYYY-MM-DD')
+              } else {
+                task['end_day'] = end_day.format('YYYY-MM-DD')
+              }
+            }
+          }
+          this.dragging = false;
+          this.leftResizing = false;
+          this.rightResizing = false;
+        },
+        mouseDownResize(task, direction) {
+          direction === 'left' ? this.leftResizing = true : this.rightResizing = true;
+          this.pageX = event.pageX;
+          this.width = event.target.parentElement.style.width;
+          this.left = event.target.parentElement.style.left;
+          this.element = event.target.parentElement;
+          this.task_id = task.id
+        },
+        mouseResize() {
+          if (this.leftResizing) {
+            let diff = this.pageX - event.pageX
+            if (parseInt(this.width.replace('px', '')) + diff > this.block_size) {
+              this.element.style.width = `${parseInt(this.width.replace('px', '')) + diff}px`
+              this.element.style.left = `${this.left.replace('px', '') - diff}px`;
+            }
+          }
+          if (this.rightResizing) {
+            let diff = this.pageX - event.pageX;
+            if (parseInt(this.width.replace('px', '')) - diff > this.block_size) {
+              this.element.style.width = `${parseInt(this.width.replace('px', '')) - diff}px`
+            }
+          }
+        },
+        async saveData() {
+          try {
+            const response = await fetch('/schedules/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                client_info: this.client_info,
+                pm_tasks: this.pm_tasks,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTPエラー! ステータス: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('データが保存されました:', result);
+          } catch (error) {
+            console.error('データの保存に失敗しました。', error);
+          }
+        },
+        check(){
+          console.log( this.pm_tasks.map(task => task.can_be_saved))
+          console.log('pm_tasks:', this.pm_tasks)
+          console.log('client_info:', this.client_info)
+        }
+      },
+      computed: {
+        calendarViewWidth() {
+          return this.inner_width - this.task_width;
+        },
+        calendarViewHeight() {
+          return this.inner_height - this.task_height - 48 - 60 -580;
+        },
+        scrollDistance() {
+          let start_date = moment(this.start_month);
+          let between_days = this.today.diff(start_date, 'days')
+          return between_days* this.block_size;
+        },
+        taskBars() {
+          let start_date = moment().startOf('month');
+          let top = 10;
+          let left;
+          let between;
+          let start;
+          let style;
+          return this.pm_tasks.map(task => {
+            style = {}
+            if(task.start_day !== '' && task.end_day !== '' && task.end_day >= task.start_day){
+              let date_from = moment(task.start_day);
+              let date_to = moment(task.end_day);
+              between = date_to.diff(date_from, 'days');
+              between++;
+              start = date_from.diff(start_date, 'days');
+              left = start * this.block_size;
+              task.can_be_saved = true;
+              style = {
+                top: `${top}px`,
+                left: `${left}px`,
+                width: `${this.block_size * between}px`,
+                'background-color': task.pm_color,
+              }
+            }
+            top = top + 18;
+            return {
+              style,
+              task,
+            }
+          })
+        },
+      },
+      mounted() {
+        window.addEventListener('mousemove', this.mouseMove);
+        window.addEventListener('mousemove', this.mouseResize);
+        window.addEventListener('mouseup', this.stopDrag);
+        this.fetchData();
+        this.getSchedule();
+        this.getCalendar();
+        this.getWindowSize();
+        this.$nextTick(() => {
+        this.todayPosition();
+        });
+        window.addEventListener('resize', this.getWindowSize);
+      }
+    }).mount('#new_app')
+</script>

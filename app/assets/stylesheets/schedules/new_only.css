@@ -1,0 +1,137 @@
+.body-top-wrapper-new{
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.new-project-title{
+    margin: 10px 20px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.register-title-box{
+    display: flex;
+    align-items: center;
+}
+
+.regist-btn{
+    height: 35px;
+    width: 80px;
+    background: rgb(63, 112, 219);
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.regist-btn:hover{
+    opacity: 0.7;
+}
+
+.new-task-item-box{
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.new-task-item{
+    width: 60px;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    padding: 0 21px;
+}
+
+.process-machines-box{
+    height: 40vh;
+    margin: 10px 50px ;
+    background-color: beige;
+    border-radius: 20px;
+}
+
+.process-machines-inner-box{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+
+.pm-block{
+    border: solid 2px #555555;
+    width: 120px;
+    margin: 20px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.add-taskbar-btn{
+    margin-top: 10px;
+    margin-left: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px solid #ccc8c8;
+    border-radius: 5px;
+    background-color: #209e00;
+    color: white;
+}
+
+.add-taskbar-btn:hover{
+    opacity: 0.7;
+}
+
+.start-date-form{
+    font-size: 10px;
+    width: 80%;
+}
+
+.end-date-form{
+    font-size: 10px;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.start-day-box,
+.end-day-box{
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.bar-style{
+    height: 100%;
+    width: 100%;
+}
+
+.bar-style-base{
+    border-radius: 10px;
+    position: absolute;
+    height: 15px;
+}
+
+.left-cursor{
+    cursor: col-resize;
+    position: absolute;
+    top: 1.5px;
+    left: 0px;
+    width: 3px;
+    height: 10px;
+    background-color: #6d6d6d;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px 0px 0px 4px;
+    border-color: #000;
+}
+
+.right-cursor{
+    cursor: col-resize;
+    position: absolute;
+    top: 1.5px;
+    right: 0px;
+    width: 3px;
+    height: 10px;
+    background-color: #696969;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0px 4px 4px 0px;
+    border-color: #000;
+}

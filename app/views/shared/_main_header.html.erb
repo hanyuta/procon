@@ -4,13 +4,18 @@
         <div class="header-nav">
             <ul class="nav-items">
                 <% if user_signed_in? %>
-                <li><%= link_to "ログアウト" , destroy_user_session_path ,data:{turbo_method: :delete},class: "nav-item"  %></li>
+                    <li><%= link_to "ログアウト" , destroy_user_session_path ,data:{turbo_method: :delete},class: "nav-item"  %></li>
                 <% else %>
-                <li><%= link_to "ログイン" , new_user_session_path ,class: "nav-item" %></li>
-                <li><%= link_to "新規登録" , new_user_registration_path,class: "nav-item" %></li>
+                    <li><%= link_to "ログイン" , new_user_session_path ,class: "nav-item" %></li>
+                    <li><%= link_to "新規登録" , new_user_registration_path,class: "nav-item" %></li>
                 <% end %>
                 <% if user_signed_in? && current_user.admin_true == true %>
-                <li><%= link_to "設備/工程登録" , process_machines_path ,class: "nav-item" %></li>
+                    <li><%= link_to "設備/工程登録" , process_machines_path ,class: "nav-item" %></li>
+                    <% if @client_info_name.present? %>
+                        <li><%= link_to "顧客情報名称編集"  ,edit_client_info_name_path(ClientsInfoName.first.id),class: "nav-item" %></li>
+                    <% else %>
+                        <li><%= link_to "顧客情報名称登録" , client_info_names_path ,class: "nav-item" %></li>
+                    <% end %>
                 <% end %>
             </ul>
         </div>
