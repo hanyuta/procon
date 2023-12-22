@@ -83,11 +83,9 @@ comments
 | -------- | ---------- | ------------------------------- | 
 | comment  | string     | null: false                     | 
 | user     | references | null: false , foreign_key: true | 
-| schedule | references | null: false , foreign_key: true | 
 
 associations
 belongs_to: user
-belongs_to: schedule
 
 
 
