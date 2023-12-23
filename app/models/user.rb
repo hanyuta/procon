@@ -6,7 +6,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :clients_info_name
-  has_many :schedules
   has_many :comments
 
   validates :first_name, presence: true ,format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: 'は全角ひらがな、カタカナ、漢字で入力してください'}
