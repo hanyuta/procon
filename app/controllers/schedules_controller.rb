@@ -3,8 +3,7 @@ class SchedulesController < ApplicationController
   before_action :set_client_info_names, expect: [:index , :new]
 
   def index
-    @comments = Comment.all
-    @comment = Comment.new
+    @comments = Comment.order(id: "DESC")
   end
 
   def new
