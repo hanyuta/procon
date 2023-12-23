@@ -19,8 +19,6 @@ class ProcessMachinesController < ApplicationController
     private
 
     def process_machine_params
-        puts "Params: #{params.inspect}" # デバッグ用に出力
-
         params.require(:process_machine).permit(:pm_name,:pm_abbreviation,:pm_color)
     end
 

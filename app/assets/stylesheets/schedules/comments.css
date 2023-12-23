@@ -77,11 +77,26 @@ body {
   background-color: rgb(183, 217, 231);
 }
 
-.comment-list{
+.comment-box{
   top:0;
-  scrollbar-arrow-color: aqua;
+  margin: 10px ;
   overflow-y: scroll;
-  height:calc(100vh - 65px);
-  background-color: #006c7a;
+  height:calc(100vh - 70px);
+  background-color:#005f6b;
 }
 
+.comment_block{
+  margin:10px 0px ;
+  border-bottom:dashed 2px #03b7d3 ;
+}
+
+.comment_name_box{
+  display: flex;
+}
+
+.comment_name{
+  font-weight: bold;
+  background-color: #2b7e8a;
+  padding: 1px 5px;
+  border-radius: 10px;
+}
