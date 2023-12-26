@@ -8,12 +8,14 @@
                     <p>顧客名</p>
                     <%= f.text_field "client_name", class: "client-info-text", id: "client_name" %>
                 </div>
-                <% (1..10).each do |i| %>
-                    <% if @client_info_name.send("clients_info#{i}_name").present? %>
-                    <div class="info-form-name">
-                        <p><%= @client_info_name.send("clients_info#{i}_name") %></p>
-                        <%= f.text_field "client_info#{i}".to_sym, class: "client-info-text", id: "client_info#{i}" %>
-                    </div>
+                <% if @client_info_name.present? %>
+                    <% (1..10).each do |i| %>
+                        <% if @client_info_name.send("clients_info#{i}_name").present? %>
+                        <div class="info-form-name">
+                            <p><%= @client_info_name.send("clients_info#{i}_name") %></p>
+                            <%= f.text_field "client_info#{i}".to_sym, class: "client-info-text", id: "client_info#{i}" %>
+                        </div>
+                        <% end %>
                     <% end %>
                 <% end %>
                 <div class="client-info-actions">

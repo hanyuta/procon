@@ -17,12 +17,15 @@
       <div id="gantt-content" class="gantt-content">
         <div class="gantt-task" ref="task">
           <div class="gantt-task-title" >
-            <div class="task-item">顧客名</div>
-            <% (1..10).each do |i| %>
-              <% column_name = "clients_info#{i}_name" %>
-                <% if @client_info_name[column_name].present? %>
-                  <div class="task-item"><%= @client_info_name[column_name] %></div>
-                <% end %>
+
+              <div class="task-item">顧客名</div>
+              <% if @client_info_name.present? %>
+              <% (1..10).each do |i| %>
+                <% column_name = "clients_info#{i}_name" %>
+                  <% if @client_info_name[column_name].present? %>
+                    <div class="task-item"><%= @client_info_name[column_name] %></div>
+                  <% end %>
+              <% end %>
             <% end %>
           </div>
         </div>
