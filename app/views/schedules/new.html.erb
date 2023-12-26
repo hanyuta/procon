@@ -13,7 +13,7 @@
     <div v-else="loading">
       <div class="register-title-box">
         <div class="new-project-title">スケジュール新規登録</div>
-        <button class="regist-btn" @click="check">登録</button>
+        <button class="regist-btn" @click="saveData">登録</button>
       </div>
       <div id="gantt-content" class="gantt-content">
         <div class="gantt-task" ref="task">
@@ -309,26 +309,37 @@
           }
         },
         async saveData() {
+          const validTasks = this.pm_tasks.filter(task => task.can_be_saved);
+
+          if (validTasks.length === 0) {
+            console.error('保存可能なタスクがありません。');
+            return;
+          }
+
+          const firstTask = validTasks[0];
+
           try {
-            const response = await fetch('/schedules/create', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
+            const response = await axios.post('/schedules', {
+              schedule: {
+                client_info_id: firstTask.client_id,
+                start_date: firstTask.start_day,
+                end_date: firstTask.end_day,
+                process_machine_id: firstTask.id,
               },
-              body: JSON.stringify({
-                client_info: this.client_info,
-                pm_tasks: this.pm_tasks,
-              }),
             });
 
-            if (!response.ok) {
-              throw new Error(`HTTPエラー! ステータス: ${response.status}`);
-            }
+            if (response.data.status === 'success') {
+              // サーバーからの成功レスポンスを処理
+              this.savedData.push(response.data.schedule);
 
-            const result = await response.json();
-            console.log('データが保存されました:', result);
+              // 保存後に入力フィールドをクリア
+              this.client_info = '';
+              this.pm_tasks = [];
+            } else {
+              console.error('保存エラー:', response.data.errors);
+            }
           } catch (error) {
-            console.error('データの保存に失敗しました。', error);
+            console.error('ネットワークエラー:', error);
           }
         },
         check(){

@@ -13,7 +13,21 @@ class SchedulesController < ApplicationController
   end
 
   def create
+    params[:schedule][:pm_tasks].each do |task|
+      next unless task[:can_be_saved] # can_be_savedがtrueでない場合はスキップ
 
+      # データを保存
+      Schedule.create!(
+        client_info_id: task[:client_id],
+        start_date: task[:start_day],
+        end_date: task[:end_day],
+        process_machine_id: task[:id]
+      )
+    end
+
+    render json: { status: 'success', message: '保存が完了しました' }
+  rescue StandardError => e
+    render json: { status: 'error', message: e.message }
   end
 
   def api_data
