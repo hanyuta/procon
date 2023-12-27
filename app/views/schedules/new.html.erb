@@ -19,20 +19,24 @@
         <div class="gantt-task" ref="task">
           <div class="gantt-task-title" >
             <div class="task-item">顧客名</div>
-            <% (1..10).each do |i| %>
-              <% column_name = "clients_info#{i}_name" %>
-              <% if @client_info_name[column_name].present? %>
-                <div class="task-item"><%= @client_info_name[column_name] %></div>
+            <% if @client_info_name.present? %>
+              <% (1..10).each do |i| %>
+                <% column_name = "clients_info#{i}_name" %>
+                <% if @client_info_name[column_name].present? %>
+                  <div class="task-item"><%= @client_info_name[column_name] %></div>
+                <% end %>
               <% end %>
             <% end %>
           </div>
           <div class="new-task-item-box">
-            <% @client_info.id %>
-            <div class="new-task-item"><%= @client_info.client_name %></div>
-              <% (1..10).each do |i| %>
-              <% column_name = "client_info#{i}" %>
-              <%if @client_info[column_name].present? %>
-                <div class="new-task-item"><%= @client_info[column_name] %></div>
+            <% if @client_info_name.present? %>
+              <% @client_info.id %>
+              <div class="new-task-item"><%= @client_info.client_name %></div>
+                <% (1..10).each do |i| %>
+                <% column_name = "client_info#{i}" %>
+                <%if @client_info[column_name].present? %>
+                  <div class="new-task-item"><%= @client_info[column_name] %></div>
+                <% end %>
               <% end %>
             <% end %>
           </div>
