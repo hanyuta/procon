@@ -95,12 +95,14 @@
 | テキストエディタ  | Visual Studio Code                            | 
 | タスク管理       | GitHub                                        | 
 
+
 #	ローカルでの動作方法
 以下のコマンドを順に実行  
 % git clone https://github.com/hanyuta/procon  
 % cd procon  
 % bundle install  
 % yarn install
+
 #	工夫したポイント
 * 管理ユーザーと生産ユーザーの識別
 * タスクバーをドラッグによって調整できる機能
