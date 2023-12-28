@@ -1,91 +1,70 @@
+#	アプリケーション名
+### ProCon(ProjectController)
 
-users
-| column             | type    | option                       | 
-| ------------------ | ------- | ---------------------------- | 
-| email              | string  | null: false , unique: true   | 
-| encrypted_password | string  | null: false                  | 
-| first_name         | string  | null: false                  | 
-| last_name          | string  | null: false                  | 
-| admin_true         | boolean | null: false , default: false | 
+#	アプリケーション概要
+多品種少量生産の加工現場での使用にコミットした生産スケジュールアプリケーション。  
+高頻度に行われるリスケジュールやそれに伴う加工現場との連絡を取り合うための機能を導入。
 
-associations
-has_one:clients_info_name
-has_many:schedules
-has_many:comments
+#	URL
+[]()
 
-clients_info_name
-| column             | type   option                                | 
-| ------------------ | --------------------------------------       | 
-| client_info1_name  |string      |                                 | 
-| client_info2_name  | string     |                                 | 
-| client_info3_name  | string     |                                 | 
-| client_info4_name  | string     |                                 | 
-| client_info5_name  | string     |                                 | 
-| client_info6_name  | string     |                                 | 
-| client_info7_name  | string     |                                 | 
-| client_info8_name  | string     |                                 | 
-| client_info9_name  | string     |                                 | 
-| client_info10_name | string     |                                 | 
-| user               | references | null: false , foreign_key: true |
+#	テスト用アカウント
+* Basic認証ID	:	admin
+* Basic認証パスワード	:	2222
+* メールアドレス	:	
+* パスワード	:	
+* 管理ユーザー用パスワード	:	1234
 
-associations
-has_one:user
-has_many:clients_info
+#	利用方法
+## ログイン・新規登録
+・テスト用アカウントでログイン、もしくは管理ユーザー用パスワードを使用して管理ユーザーとして新規登録する。  
 
+・新規登録する場合、メールアドレス、任意のパスワード、苗字、名前を入力し、”管理ユーザー確認”のチェックボックスを入れると、管理ユーザー用パスワードの入力フォームが表示される。管理ユーザー用パスワードを入力し、登録ボタンを押下すると管理ユーザーとして登録される。  
 
-clients_info
-| column            | type       | option                          | 
-| ----------------- | ---------- | ------------------------------- | 
-| client_name       | string     | null: false                     | 
-| client_info1      | string     |                                 | 
-| client_info2      | string     |                                 | 
-| client_info3      | string     |                                 | 
-| client_info4      | string     |                                 | 
-| client_info5      | string     |                                 | 
-| client_info6      | string     |                                 | 
-| client_info7      | string     |                                 | 
-| client_info8      | string     |                                 | 
-| client_info9      | string     |                                 | 
-| client_info10     | string     |                                 | 
-| clients_info_name | references | null: false , foreign_key: true | 
+#### ・以降の機能を利用の際はログイン必須となる
 
-associations
-belongs_to:client_info_name
-belongs_to:user
-has_many:schedules
-has_many:comments
+## 顧客管理名称登録
+1.トップページの右上にある、”顧客情報名称登録”ボタンを押下すると登録ページに遷移する。  
+2.スケジュール上に表示したい項目の名称を入力する。項目は任意の数で入力可能。  
+[![Image from Gyazo](https://i.gyazo.com/1d3ecdcb8d760527d6b411beac68de7e.png)](https://gyazo.com/1d3ecdcb8d760527d6b411beac68de7e)    
+  
+3.”更新”ボタンを押下するとトップページに戻り、先ほど入力した項目が追加される。  
+[![Image from Gyazo](https://i.gyazo.com/7d60f3daf6480a159764e0b7498a20ac.png)](https://gyazo.com/7d60f3daf6480a159764e0b7498a20ac)  
 
-process_machines
-| column          | type   | option                           | 
-| --------------- | ------ | -------------------------------- | 
-| pm_name         | string | null: false                      | 
-| pm_abbreviation | string | null: false                      | 
-| pm_color        | string | null: false                      |
+## 設備/工程登録
+1.トップページの右上にある、”設備/工程登録”ボタンを押下すると登録ページに遷移する。  
+2.設備・工程の正式名称、略称を入力し、色を選択後、”登録”を押下して登録する。  
+* 選択した色は、スケジュール登録時のタスクバーの色に反映される。  
+* 「※文字色は～」のボックスに選択した色が表示されるため、黒文字が視認できる色の選択を推奨する。  
+  
+[![Image from Gyazo](https://i.gyazo.com/99f419a72874c1d8dfae51e3a7df40ae.png)](https://gyazo.com/99f419a72874c1d8dfae51e3a7df40ae)
 
-associations
-has_one:schedule
+## スケジュール新規登録
+1.トップページのにある、”設備/工程登録”ボタンを押下すると登録ページに遷移する。  
 
 
-schedules
-| column          | type       |option                          | 
-| -------------   | ---------- |------------------------------- | 
-| start_date      | date       | null: false                    | 
-| end_date        | date       | null: false                    | 
-| process_machine | references | null: false , foreign_key:true | 
-| clients_info    | references | null: false , foreign_key:true | 
-
-associations
-belongs_to:client_info
-belongs_to:process_machine
-
-comments
-| column   | type       | option                          | 
-| -------- | ---------- | ------------------------------- | 
-| comment  | string     | null: false                     | 
-| user     | references | null: false , foreign_key: true | 
-
-associations
-belongs_to: user
+## コメント機能
 
 
+#	アプリケーションを作成した背景
 
+#	洗い出した要件
+[要件定義シート](https://docs.google.com/spreadsheets/d/1dLXrYDWhAJif9tzNyP_ffw_itcIwM7QZkqmKlsDOyyQ/edit?usp=sharing)
+
+#	実装した機能についての画像やGIFおよびその説明
+
+#	実装予定の機能
+
+#	データベース設計
+
+#	画面遷移図
+
+#	開発環境
+
+#	ローカルでの動作方法
+
+#	工夫したポイント
+
+#	改善点
+
+#	制作時間
