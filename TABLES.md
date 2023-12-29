@@ -10,7 +10,6 @@
 
 ### associations
 * has_one:clients_info_name
-* has_many:schedules
 * has_many:comments
 
 # clients_info_name
@@ -51,9 +50,7 @@
 
 ### associations
 * belongs_to:client_info_name
-* belongs_to:user
 * has_many:schedules
-* has_many:comments
 
 # process_machines
 | column          | type   | option                           | 
