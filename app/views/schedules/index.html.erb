@@ -8,7 +8,11 @@
           <div class="login_user_name">ログインしていません</div>
         <% end %>
         <% if user_signed_in? && current_user.admin_true == true %>
-          <%= link_to "+スケジュールを追加" , clients_info_index_path ,class:"add-schedule-btn" %>
+          <% if @clients_info_name.any? %>
+            <%= link_to "+スケジュールを追加" , clients_info_index_path ,class:"add-schedule-btn" %>
+          <% else %>
+            <p>※顧客情報名称が未登録です</p>
+          <% end %>
         <% end %>
     </div>
     <div id="app">

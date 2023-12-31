@@ -4,6 +4,7 @@ class SchedulesController < ApplicationController
 
   def index
     @comments = Comment.order(id: "DESC")
+    @clients_info_name = ClientsInfoName.all
   end
 
   def new
