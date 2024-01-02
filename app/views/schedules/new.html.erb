@@ -211,8 +211,6 @@
               can_be_saved:false,
               client_id: this.client_info.id,
             }));
-            console.log('取得に成功しました。Client Info:', this.client_info);
-            console.log('取得に成功しました。PM Tasks:', this.pm_tasks);
           } catch (error) {
             console.error('データの取得に失敗しました。', error.message);
             this.reloadOnCatch();
@@ -320,37 +318,46 @@
             return;
           }
 
-          const firstTask = validTasks[0];
-
           try {
-            const response = await axios.post('/schedules', {
-              schedule: {
-                client_info_id: firstTask.client_id,
-                start_date: firstTask.start_day,
-                end_date: firstTask.end_day,
-                process_machine_id: firstTask.id,
-              },
-            });
+            // pm_tasksの各要素に対して非同期通信を行う
+            await Promise.all(validTasks.map(async (task) => {
+              console.log(task.client_id);
+              console.log(task.start_day);
+              console.log(task.end_day);
+              console.log(task.id);
 
-            if (response.data.status === 'success') {
-              // サーバーからの成功レスポンスを処理
-              this.savedData.push(response.data.schedule);
+              const response = await axios.post('<%= schedules_path %>', {
+                schedule: {
+                  client_info_id: task.client_id,
+                  start_date: task.start_day,
+                  end_date: task.end_day,
+                  process_machine_id: task.id,
+                },
+              });
 
-              // 保存後に入力フィールドをクリア
-              this.client_info = '';
-              this.pm_tasks = [];
-            } else {
-              console.error('保存エラー:', response.data.errors);
-            }
+              if (response.data.status === 'success') {
+                // サーバーからの成功レスポンスを処理
+                this.savedData.push(response.data.schedule);
+              } else {
+                console.error('保存エラー:', response.data.errors);
+              }
+            }));
+
+            // すべての非同期通信が完了した後に実行される処理
+            // 保存後に入力フィールドをクリア
+            this.client_info = '';
+            this.pm_tasks = [];
           } catch (error) {
-            console.error('ネットワークエラー:', error);
+            if (error.response) {
+              // サーバーからのエラーレスポンスをコンソールに出力
+              console.log('Full response:', error.response);
+            } else if (error.request) {
+              console.error('No response received:', error.request);
+            } else {
+              console.error('Error setting up the request:', error.message);
+            }
           }
         },
-        check(){
-          console.log( this.pm_tasks.map(task => task.can_be_saved))
-          console.log('pm_tasks:', this.pm_tasks)
-          console.log('client_info:', this.client_info)
-        }
       },
       computed: {
         calendarViewWidth() {
