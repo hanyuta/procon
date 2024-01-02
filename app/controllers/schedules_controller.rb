@@ -15,7 +15,6 @@ class SchedulesController < ApplicationController
 
   def create
     params[:schedule][:pm_tasks].each do |task|
-      next unless task[:can_be_saved] # can_be_savedがtrueでない場合はスキップ
 
       # データを保存
       Schedule.create!(
