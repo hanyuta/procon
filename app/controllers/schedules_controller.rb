@@ -14,20 +14,13 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    params[:schedule][:pm_tasks].each do |task|
+    @schedule = Schedule.new(schedule_params)
 
-      # データを保存
-      Schedule.create!(
-        client_info_id: task[:client_id],
-        start_date: task[:start_day],
-        end_date: task[:end_day],
-        process_machine_id: task[:id]
-      )
+    if @schedule.save
+      render json: @schedule, status: :created
+    else
+      render json: @schedule.errors, status: :unprocessable_entity
     end
-
-    render json: { status: 'success', message: '保存が完了しました' }
-  rescue StandardError => e
-    render json: { status: 'error', message: e.message }
   end
 
   def api_data
