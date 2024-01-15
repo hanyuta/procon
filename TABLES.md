@@ -68,12 +68,9 @@
 | -------------   | ---------- |------------------------------- | 
 | start_date      | date       | null: false                    | 
 | end_date        | date       | null: false                    | 
-| process_machine | references | null: false , foreign_key:true | 
-| clients_info    | references | null: false , foreign_key:true | 
+| process_machine | integer    | null: false                    | 
+| clients_info    | integer    | null: false                    | 
 
-### associations
-* belongs_to:client_info
-* belongs_to:process_machine
 
 # comments
 | column   | type       | option                          | 
