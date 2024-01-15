@@ -1,6 +1,7 @@
 class SchedulesController < ApplicationController
   before_action :authenticate_user!, expect: [:new]
   before_action :set_client_info_names, expect: [:index , :new]
+  protect_from_forgery except: :create
 
   def index
     @comments = Comment.order(id: "DESC")
@@ -18,6 +19,7 @@ class SchedulesController < ApplicationController
 
     if @schedule.save
       render json: @schedule, status: :created
+      redirect_to root_path
     else
       render json: @schedule.errors, status: :unprocessable_entity
     end
@@ -34,6 +36,10 @@ class SchedulesController < ApplicationController
 
 
   private
+
+  def schedule_params
+    params.require(:schedule).permit(:client_info_id, :start_date, :end_date, :process_machine_id)
+  end
 
   def set_client_info_names
     @client_info_name = ClientsInfoName.first
