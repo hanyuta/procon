@@ -321,10 +321,6 @@
           try {
             // pm_tasksの各要素に対して非同期通信を行う
             await Promise.all(validTasks.map(async (task) => {
-              console.log(task.client_id);
-              console.log(task.start_day);
-              console.log(task.end_day);
-              console.log(task.id);
 
               const token = document.querySelector('meta[name="csrf-token"]').content;
               const response = await axios.post('<%= schedules_path %>', {
