@@ -339,19 +339,8 @@
                   'X-CSRF-Token': token
                 }
               });
-
-              if (response.data.status === 'success') {
-                // サーバーからの成功レスポンスを処理
-                this.savedData.push(response.data.schedule);
-              } else {
-                console.error('保存エラー:', response.data.errors);
-              }
             }));
 
-            // すべての非同期通信が完了した後に実行される処理
-            // 保存後に入力フィールドをクリア
-            this.client_info = '';
-            this.pm_tasks = [];
           } catch (error) {
             if (error.response) {
               // サーバーからのエラーレスポンスをコンソールに出力
