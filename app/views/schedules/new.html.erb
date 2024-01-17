@@ -339,8 +339,9 @@
                   'X-CSRF-Token': token
                 }
               });
-            }));
 
+            window.location.href = "/";
+            }));
           } catch (error) {
             if (error.response) {
               // サーバーからのエラーレスポンスをコンソールに出力
