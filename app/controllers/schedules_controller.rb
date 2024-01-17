@@ -19,7 +19,6 @@ class SchedulesController < ApplicationController
 
     if @schedule.save
       render json: @schedule, status: :created
-      redirect_to root_path
     else
       render json: @schedule.errors, status: :unprocessable_entity
     end
@@ -33,7 +32,6 @@ class SchedulesController < ApplicationController
       pm_tasks: @pm_tasks
     }
   end
-
 
   private
 
